@@ -54,3 +54,7 @@ site-lisp/package/
 /.lsp-session-v1
 /smex-items
 /eln-cache/
+/elpy
+/el-get
+/server
+/org-roam.db
