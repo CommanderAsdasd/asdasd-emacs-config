@@ -13,6 +13,7 @@
 
 (require 'asdasd-unstable)
 (require 'init-helm)
+(require 'init-windmove)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
