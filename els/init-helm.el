@@ -471,7 +471,7 @@ new directory."
 
 (use-package helm-lib
   :config
-  (use-package isearch-light)
+  ;; (use-package isearch-light)
   (setq helm-scroll-amount 4)
   (helm-help-define-key "C-x" 'exchange-point-and-mark)
   (helm-help-define-key "C-l" 'recenter-top-bottom)
@@ -619,7 +619,7 @@ First call indent, second complete symbol, third complete fname."
 (global-set-key (kbd "C-h C-f")                      'helm-apropos)
 (global-set-key (kbd "C-h a")                        'helm-apropos)
 (global-set-key (kbd "C-h C-d")                      'helm-debug-open-last-log)
-(global-set-key (kbd "<f5> s")                       'helm-find)
+;; (global-set-key (kbd "<f5> s")                       'helm-find)
 (global-set-key (kbd "S-<f2>")                       'helm-execute-kmacro)
 (global-set-key (kbd "C-c i")                        'helm-imenu-in-all-buffers)
 (global-set-key (kbd "C-c C-i")                      'helm-imenu)
@@ -627,7 +627,7 @@ First call indent, second complete symbol, third complete fname."
 (global-set-key (kbd "<f11> o")                      'helm-org-agenda-files-headings)
 (global-set-key (kbd "M-s")                          nil)
 (global-set-key (kbd "M-s")                          'helm-occur-visible-buffers)
-(global-set-key (kbd "<f6> h")                       'helm-emms)
+;; (global-set-key (kbd "<f6> h")                       'helm-emms)
 (define-key global-map [remap jump-to-register]      'helm-register)
 (define-key global-map [remap list-buffers]          'helm-mini)
 (define-key global-map [remap dabbrev-expand]        'helm-dabbrev)
