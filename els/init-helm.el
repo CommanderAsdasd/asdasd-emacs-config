@@ -640,6 +640,7 @@ First call indent, second complete symbol, third complete fname."
 (define-key global-map (kbd "C-x r c")               'helm-addressbook-bookmarks)
 (define-key global-map (kbd "C-c t r")               'helm-dictionary)
 (global-set-key (kbd "C-x r l")                          'helm-bookmarks)
+(global-set-key (kbd "C-x b")                          'helm-buffers-list) 
 
 ;; Indent or complete with completion-at-point
 ;; (setq tab-always-indent 'complete)
