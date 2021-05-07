@@ -24,6 +24,7 @@
         helm-autoresize-max-height                80 ; it is %.
         helm-autoresize-min-height                20 ; it is %.
         helm-debug-root-directory                 "/home/thierry/tmp/helm-debug"
+        helm-debug-root-directory                 user-emacs-directory
         helm-follow-mode-persistent               t
         helm-candidate-number-limit               500)
   (add-to-list 'helm-sources-using-default-as-input 'helm-source-info-bash)
@@ -638,6 +639,7 @@ First call indent, second complete symbol, third complete fname."
 (define-key global-map (kbd "C-x r p")               'helm-projects-history)
 (define-key global-map (kbd "C-x r c")               'helm-addressbook-bookmarks)
 (define-key global-map (kbd "C-c t r")               'helm-dictionary)
+(global-set-key (kbd "C-x r l")                          'helm-bookmarks)
 
 ;; Indent or complete with completion-at-point
 ;; (setq tab-always-indent 'complete)
