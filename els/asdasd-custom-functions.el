@@ -24,7 +24,7 @@
 
 
 (defun xah-new-empty-buffer ()
-  "Create a new empty buffer. It returns the buffer (for elisp programing).
+  "Create a new emphkty buffer. It returns the buffer (for elisp programing).
 
 URL `http://ergoemacs.org/emacs/emacs_new_empty_buffer.html'
 Version 2017-11-01"
@@ -36,6 +36,23 @@ Version 2017-11-01"
     $buf
     ))
 
+
+(defun youtube-dl ()
+  (interactive)
+  (let ((url (read-string "url: "))
+        (dir (expand-file-name (read-directory-name "Save to:"))))   
+    (cd dir)
+    (async-shell-command (concat "youtube-dl " url))
+    ))
+
+
+(defun emacs-change-config ()
+  (interactive)
+  (let ((config-dir (w32-convert-standard-filename (read-string "dir with new : ")))
+        )   
+    ;; (cd dir)
+    (async-shell-command (concat "export HOME=" config-dir "; emacs"))
+    ))
 
 
 (global-set-key (kbd "C-S-M-s") 'isearch-other-window)
