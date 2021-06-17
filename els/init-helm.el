@@ -38,7 +38,7 @@
 ;; Helm firefox
 (customize-set-variable 'helm-firefox-default-directory "~/.mozilla/firefox-esr")
 
-
+
 (defun helm/debug-toggle ()
   (interactive)
   (setq helm-debug (not helm-debug))
@@ -197,14 +197,14 @@
 (use-package helm-info
   :bind ("C-h r" . helm-info-emacs))
 
-(use-package helm-ipython
-  :config
-  (use-package python
-    :config
-    (defun tv/bind-tab-in-inf-python ()
-      (define-key inferior-python-mode-map (kbd "<M-tab>") 'helm-ipython-complete))
-    (define-key python-mode-map (kbd "<M-tab>") 'helm-ipython-complete)
-    (add-hook 'inferior-python-mode-hook 'tv/bind-tab-in-inf-python)))
+;; (use-package helm-ipython
+;;   :config
+;;   (use-package python
+;;     :config
+;;     (defun tv/bind-tab-in-inf-python ()
+;;       (define-key inferior-python-mode-map (kbd "<M-tab>") 'helm-ipython-complete))
+;;     (define-key python-mode-map (kbd "<M-tab>") 'helm-ipython-complete)
+;;     (add-hook 'inferior-python-mode-hook 'tv/bind-tab-in-inf-python)))
 
 (use-package helm-ring
   :config

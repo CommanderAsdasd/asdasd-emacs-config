@@ -8,6 +8,29 @@
 
 ;; CONFIG
 (add-to-list 'load-path (expand-file-name "els" user-emacs-directory))
+
+
+;; MELPA workaround
+
+;; (when (>= emacs-major-version 24)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/") t)
+  
+
+;; 
+
+(unless (package-installed-p 'use-package)
+(package-refresh-contents)
+(package-install 'use-package))
+
+(use-package try
+  :ensure t)
+
+;; 
+
+
 (require 'asdasd-config-defaults)
 (require 'asdasd-config-packages)
 
@@ -21,10 +44,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-default-notes-file (concat org-directory "/notes.org") t)
- '(org-directory "/home/atankovskii/git/org-kasten/" t)
+ '(org-agenda-files '("/home/atankovskii/org-roam/"))
+ '(org-default-notes-file (concat org-directory "/notes.org"))
+ '(org-directory "/home/atankovskii/git/org-kasten/")
  '(package-selected-packages
-   '(python-info iedit multiple-cursors helm-swoop powershell helm auto-virtualenv pomidor pomodoro telega pdf-tools github-search github-explorer firefox-controller processing-mode ace-window idomenu company-c-headers origami-predef groovy-mode origami org-roam kubernetes use-package neuron-mode google-translate howdoi ## cider ffmpeg-player elpy edit-server glsl-mode company-tabnine company magit browse-kill-ring artbollocks-mode dracula-theme))
  '(winner-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -32,3 +55,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(find-file "~/.emacs.d/els/*el" t)

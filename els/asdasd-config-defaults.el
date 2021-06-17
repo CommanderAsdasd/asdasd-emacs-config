@@ -65,7 +65,7 @@
 
 ;(global-set-key (kbd \"C-x C-b\") 'ibuffer)
 (progn (global-set-key (kbd "C-x C-a") 'rename-buffer)
-(global-set-key (kbd "C-x t") 'shell)
+(global-set-key (kbd "C-c t t") 'shell)
 (global-set-key (kbd "C-x p") 'package-install)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "<f5>") 'compile)
@@ -81,6 +81,8 @@
 ;;                            (interactive)
 ;;                            (popup-menu 'other-window)))
 
+
+
 ;;(global-set-key (kbd "C-x l p") 'package-list-packages)
 
 (global-set-key (kbd "C-z") 'undo)
@@ -94,10 +96,34 @@
 
 
 (ido-mode)
+(global-superword-mode t)
 
 ;; (add-hook 'prog-mode-hook 'company-mode)
 
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(global-set-key (kbd "C-c a") 'org-agenda)
+
 (add-hook 'after-init-hook 'global-company-mode)
+(put 'upcase-region 'disabled nil)
+
+(desktop-save-mode 1)
+
+
+(defcustom desktop-globals-to-save
+  '(kill-ring
+    kill-ring-yank-pointer
+    search-ring
+    search-ring-yank-pointer
+    regexp-search-ring
+    regexp-search-ring-yank-pointer)
+  "List of global variables that `desktop-clear' will clear.
+An element may be variable name (a symbol) or a cons cell of the form
+\(VAR . FORM).  Symbols are set to nil and for cons cells VAR is set
+to the value obtained by evaluating FORM."
+  :type '(repeat (restricted-sexp :match-alternatives (symbolp consp)))
+  :group 'desktop
+  :version "22.1")
+
 
 
 (provide 'asdasd-config-defaults)
