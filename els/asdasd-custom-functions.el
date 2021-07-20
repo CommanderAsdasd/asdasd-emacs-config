@@ -36,6 +36,13 @@ Version 2017-11-01"
     $buf
     ))
 
+(defun print-dir ()
+  "docstring"
+  (interactive)
+  (let ((current-prefix-arg 4))
+  (command-execute (read-directory-name "dir print")))
+  )
+
 
 
 (global-set-key (kbd "C-S-M-s") 'isearch-other-window)
