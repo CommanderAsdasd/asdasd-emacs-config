@@ -44,6 +44,11 @@ Version 2017-11-01"
   )
 
 
+(defun kill-variable-value ()
+  "test"
+  (interactive)
+  (kill-new (format "%s" (symbol-value (variable-at-point t))))
+  (global-set-key (kbd "C-c C-c") 'kill-variable-value)
 
 (global-set-key (kbd "C-S-M-s") 'isearch-other-window)
 
