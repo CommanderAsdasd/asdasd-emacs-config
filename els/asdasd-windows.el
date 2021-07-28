@@ -48,3 +48,12 @@
 
 
 ;; (defun )
+(defun asdasd-windows-mklink (link)
+  "docstring"
+  (interactive "P")
+  (let* (($type (read-string "/D: Dir"))
+    ($link (read-file-name "link (points to)"))
+           ($file (read-file-name "(points to) file"))
+           )
+    (shell-command (concat (format "mklink.exe %s \"%s\" \"%s\"" $type $link $file) "\\"  "&")
+		           )))
