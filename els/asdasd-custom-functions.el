@@ -22,6 +22,15 @@
   )
 
 
+(defun yank-region-other-window (args)
+  "docstring"
+  (interactive "P")
+  (kill-new (buffer-substring-no-properties (region-beginning) (region-end)))
+  (other-window 1)
+  (yank)
+  (other-window -1)
+  (keyboard-quit)
+  )
 
 (defun xah-new-empty-buffer ()
   "Create a new empty buffer. It returns the buffer (for elisp programing).
