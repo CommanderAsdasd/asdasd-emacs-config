@@ -1,0 +1,10 @@
+#XXX: # -*- mode: snippet -*-
+# name: require
+
+# key: 
+# --
+
+(require '`(car
+              (split-string
+	            (file-name-nondirectory (read-file-name "/els"))
+		    "\\."))`)

@@ -1,0 +1,4 @@
+# key: 
+# name: provide
+# --
+(provide ${1$((car (split-string (buffer-name) "\\.") ))})
