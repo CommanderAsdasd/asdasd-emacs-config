@@ -1,0 +1,3 @@
+[submodule "asdasd-emacs-snippets"]
+	path = asdasd-emacs-snippets
+	url = git@github.com:CommanderAsdasd/asdasd-emacs-snippets.git
