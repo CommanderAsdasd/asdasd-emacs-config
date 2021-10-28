@@ -1,3 +1,6 @@
+(use-package 'dired-aux)
+
+
 ;;;###autoload
 (defun doom--sudo-file-path (file)
   (let ((host (or (file-remote-p file 'host) "localhost")))
@@ -47,11 +50,60 @@
 
 (global-set-key (kbd "C-c C-f") 'find-file-at-point)
 
+
+
+(use-package dired-filter
+  ;; :hook (dired-mode dired-filter-mode)
+  )
+
+(use-package dired-du
+  ;; :hook (dired-mode . dired-du-mode)
+  )
+ 
+(use-package dired-launch
+  :config
+  )
+
+(defun xah-copy-file-path (&optional DirPathOnlyQ)
+  "Copy current buffer file path or dired path.
+Result is full path.
+If `universal-argument' is called first, copy only the dir path.
+
+If in dired, copy the current or marked files.
+
+If a buffer is not file and not dired, copy value of `default-directory'.
+
+URL `http://ergoemacs.org/emacs/emacs_copy_file_path.html'
+Version 2018-06-18 2021-09-30"
+  (interactive "P")
+  (let (($fpath
+         (if (string-equal major-mode 'dired-mode)
+             (progn
+               (let (($result (mapconcat 'identity (dired-get-marked-files) "\n")))
+                 (if (equal (length $result) 0)
+                     (progn default-directory )
+                   (progn $result))))
+           (if (buffer-file-name)
+               (buffer-file-name)
+             (expand-file-name default-directory)))))
+    (kill-new
+     (if DirPathOnlyQ
+         (progn
+           (message "Directory copied: %s" (file-name-directory $fpath))
+           (file-name-directory $fpath))
+       (progn
+         (message "File path copied: %s" $fpath)
+         $fpath )))))
+
 ;; (defun asdasd-print-current-buffer ()
 ;;   "docstring"
 ;;   ;; (interactive "S")
 ;;   (curre)
 ;;   )
 
+
+(global-auto-revert-mode t)
+
 (provide 'asdasd-files)
+
 

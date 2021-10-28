@@ -3,7 +3,7 @@
 (defun slide-buffer (dir)
   "Move current buffer into window at direction DIR.
 DIR is handled as by `windmove-other-window-loc'."
-  (require 'windmove)
+  (use-package 'windmove)
   (let ((buffer (current-buffer))
         (target (windmove-find-other-window dir)))
     (if (null target)

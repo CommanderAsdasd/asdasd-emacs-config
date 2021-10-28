@@ -48,7 +48,35 @@
 ;;         ("ec" "Logging a cycle" table-line (file+olp "~/org/training/training.org" "Cycling" "Log")
 ;;             "| %t | %? | km | min + s | | |" :prepend t)))
 
+(use-package enlive
+  :config
 
+  )
+
+(use-package 'enlive)
+(use-package 'seq)
+
+(defun ar/scrape-links-from-clipboard-url ()
+  "Scrape links from clipboard URL and return as a list. Fails if no URL in clipboard."
+  ;; (interactive "P")
+  (unless (string-prefix-p "http" (current-kill 0))
+    (user-error "no URL in clipboard"))
+  (thread-last (enlive-query-all (enlive-fetch (current-kill 0)) [a])
+    (mapcar (lambda (element)
+              (string-remove-suffix "/" (enlive-attr element 'href))))
+    (seq-filter (lambda (link)
+                  (string-prefix-p "http" link)))
+    (seq-uniq)
+    (seq-sort (lambda (l1 l2)
+                (string-lessp (replace-regexp-in-string "^http\\(s\\)*://" "" l1)
+                              (replace-regexp-in-string "^http\\(s\\)*://" "" l2))))))
+
+
+(defun ar/view-completing-links-at-clipboard-url ()
+  "Scrape links from clipboard URL and open all in external browser."
+  (interactive)
+  (browse-url (completing-read "links: "
+                               (ar/scrape-links-from-clipboard-url))))
 
 
 (provide 'asdasd-unstable)

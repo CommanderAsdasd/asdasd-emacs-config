@@ -31,4 +31,5 @@ DIR is handled as by `windmove-other-window-loc'."
 (define-key global-map (kbd "C-c <C-right>") 'windmove-right)
 
 
-(provide 'init-windmove)
+
+(provide 'asdasd-ui-windmove)

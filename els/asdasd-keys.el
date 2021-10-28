@@ -3,15 +3,13 @@
 
 (use-package general
   :config
-
   )
 
 
 (general-define-key
  ;; NOTE: keymaps specified with :keymaps must be quoted
  :keymaps 'mq-map
- "C-c C-q" 'counsel-org-tag
- ;; ...
+ "w" 'woman
  )
 
 
@@ -24,7 +22,7 @@
 (define-key 'print-map (kbd "d") 'print-dir)
 
 
-(progn 
+
 
 (global-set-key (kbd "C-c e") 'everything)
 
@@ -32,7 +30,9 @@
 ;; 'hs-hide-all
 
 (define-key mq-map (kbd "i") 'ace-link)
-)
+
+
+
 
 (provide 'asdasd-keys)
 

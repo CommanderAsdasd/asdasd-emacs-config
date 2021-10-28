@@ -1,5 +1,4 @@
-(setq everything-cmd "c:/Program Files/es/es.exe")
-
+d(setq everything-cmd "c:/Program Files/es/es.exe")
 
 
 (defun shell-bash ()
@@ -15,7 +14,6 @@
   (let ((explicit-shell-file-name "c:/Windows/System32/cmd.exe"))
     (call-interactively 'shell))
   )
-
 
 
 ;; (defun )

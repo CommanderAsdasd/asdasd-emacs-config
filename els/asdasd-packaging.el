@@ -1,33 +1,42 @@
+(require 'asdasd-packaging-startup)
 
 ;;###autoload
 ;; (defun asdasd-packaging-preconfigure ()
    "docstring"
   ;; (interactive)
-  (require 'package)
-
-  ;; (unless (require 'el-get nil 'noerror)
-    (require 'package)
-    (add-to-list 'package-archives
-		 '("melpa" . "http://melpa.org/packages/"))
-    (package-refresh-contents)
-    (package-initialize)
-    ;; (package-install 'el-get)
-    ;; )
-
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
+  
 ;; )
+
+
 
 
 (setq use-package-always-ensure t)
 (use-package el-get)
-  
+
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;; (use-package straight
+;; org  :config
+
+;;   )
+
   ;; )
 
 
 
-;; (require 'el-get)
+;; (use-package 'el-get)
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 
 ;; (el-get 'sync)
@@ -79,7 +88,7 @@
 ;; (use-package org-noter
 ;;   :config
 ;;   ;; Your org-noter config ........
-;;   (require 'org-noter-pdftools))
+;;   (use-package 'org-noter-pdftools))
 
 (use-package org-pdftools
   :hook (org-mode . org-pdftools-setup-link))
@@ -121,14 +130,14 @@ With a prefix ARG, remove start location."
 
 ;; (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
-;; (unless (require 'el-get nil 'noerror)
-;;   (require 'package)
+;; (unless (use-package 'el-get nil 'noerror)
+;;   (use-package 'package)
 ;;   (add-to-list 'package-archives
 ;;                '("melpa" . "http://melpa.org/packages/"))
 ;;   (package-refresh-contents)
-;;   (package-initialize)
+
 ;;   (package-install 'el-get)
-;;   (require 'el-get))
+;;   (requir 'el-get))
 
 ;; (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 ;; (el-get 'sync)
@@ -170,19 +179,19 @@ With a prefix ARG, remove start location."
                                 (local-set-key (kbd "C-c o") 'pdf-occur)))
 
 (global-set-key (kbd "C-c k") 'browse-kill-ring)
-(progn (undo-tree-mode) (global-set-key (kbd "C-c u") 'undo-tree-visualize))
+
 
 
 (progn (setq markdown-enable-wiki-links t)
 (setq markdown-link-space-sub-char " ")
 (setq markdown-wiki-link-search-type '(project)))
 
-(require 'package)
+;; (use-package 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
 ;; and `package-pinned-packages`. Most users will not need or want to do this.
 
-(package-initialize)
+
 
 
 (tab-bar-mode)
@@ -191,12 +200,30 @@ With a prefix ARG, remove start location."
 (global-set-key (kbd "C-<f1>") 'tab-bar-switch-to-prev-tab)
 (global-set-key (kbd "C-<f2>") 'tab-bar-switch-to-next-tab)
 
-(use-package undo-tree
-  :ensure t)
+
 
 
 (use-package try
   :ensure t)
+
+(defun package-menu-find-marks ()
+  "Find packages marked for action in *Packages*."
+  (interactive)
+  (occur "^[A-Z]"))
+
+;; Only in Emacs 25.1+
+(defun package-menu-filter-by-status (status)
+  "Filter the *Packages* buffer by status."
+  (interactive
+   (list (completing-read
+          "Status: " '("new" "installed" "dependency" "obsolete"))))
+  (package-menu-filter (concat "status:" status)))
+
+(define-key package-menu-mode-map "s" #'package-menu-filter-by-status)
+(define-key package-menu-mode-map "a" #'package-menu-find-marks)
+
+
+
 
 
 (provide 'asdasd-packaging)

@@ -1,4 +1,4 @@
-(require 'everything)
+(guse-package 'everything)
 
 (defun isearch-other-window ()
   "isearch in other window and back"
@@ -36,7 +36,40 @@ Version 2017-11-01"
     $buf
     ))
 
+(defun print-dir ()
+  "docstring"
+  (interactive)
+  (let ((current-prefix-arg 4))
+  (command-execute (read-directory-name "dir print")))
+  )
 
 
+(defun asdasd-kill-variable-value (var)
+  "Kill variable name"
+  (interactive)
+  (kill-new (format "%s" (symbol-value (variable-at-point t))))
+  )
+
+
+(global-set-key (kbd "C-c C-c") 'kill-variable-value)
+
+
+(defun asdasd-process-file (f)
+  (save-excursion 
+    (find-file f)
+    (my-function)     ; Call your function here.
+    (write-file f)
+    (kill-buffer (current-buffer))))
+
+(defun asdasd-bookmark-configs ()
+  ;; (interactive "")
+  (mapc 'bookmark-
+        (directory-files (concat user-emacs-directory "/els/")
+         nil "asdasd.*.el$")))
+
+
+
+
+  
 (global-set-key (kbd "C-S-M-s") 'isearch-other-window)
 

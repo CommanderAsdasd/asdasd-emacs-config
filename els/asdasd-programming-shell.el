@@ -112,6 +112,7 @@
 ;;; imports
 (use-package 'asdasd-programming-js)
 (use-package 'asdasd-programming-treemacs)
+(use-package 'asdasd-programming-shell)
 
 
 
