@@ -101,6 +101,34 @@ Version 2018-06-18 2021-09-30"
 ;;   (curre)
 ;;   )
 
+(defun asdasd/bookmark-filename (filename &optional $name)
+  "bookmark FILENAME with NAME"
+  (if $name () (setq $name filename))
+   (bookmark-store $name (bookmark-set-filename (bookmark-make-record-default t t) filename) t)
+    )
+
+;; (asdasd/bookmark-filename "/home/")
+
+
+
+(defun asdasd/bookmark-config-files ()
+  "bookmarks asdasd.* files"
+  
+  (setq-local $dir-list (directory-files (concat user-emacs-directory "els") "^asdasd.*\.el$"))
+  (dolist (filepath $dir-list)
+          ( (file-name-nondirectory filepath)  filepath t)))
+
+(asdasd/bookmark-config-files )
+
+(use-package historyf)
+
+(defun asdasd/helm-copy-filename (args)
+  "docstring"
+  (interactive "P")
+  )
+
+
+(asdasd/helm-copy-filename)
 
 (global-auto-revert-mode t)
 
