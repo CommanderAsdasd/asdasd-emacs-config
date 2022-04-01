@@ -2,9 +2,6 @@
 
 (use-package general
   :ensure t)
-
-
-
 ;; * Global Keybindings
 ;; `general-define-key' acts like `global-set-key' when :keymaps is not
 ;; specified (because ":keymaps 'global" is the default)
@@ -72,7 +69,7 @@
 
 ;; (global-set-key (kbd "C-c s") 'hs-show-all)
 ;; (global-set-key (kbd "C-c f") 'hs-hide-all) ;fold
-(global-set-key (kbd "M-q i") 'imenu)
+;; (global-set-key (kbd "M-s i") 'imenu)
 )
 
 
@@ -108,7 +105,7 @@
 (define-key ctl-x-5-map (kbd "M-g a")   'helm-do-grep-ag-in-frame)
 (define-key ctl-x-5-map (kbd "M-g g")   'helm-do-git-grep-in-frame)
 
-
+
 
 ;; Indent or complete with completion-at-point
 ;; (setq tab-always-indent 'complete)
@@ -137,6 +134,7 @@
 		    "k"
 		    'evil-previous-visual-line))
 
+;; (require 'asdasd-ux-keys-evil)
 
-
-(provide 'asdasd-config-keys)
+(require 'asdasd-ux-keys-chord)
+(provide 'asdasd-ux-keys)

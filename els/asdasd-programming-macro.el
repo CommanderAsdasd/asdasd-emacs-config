@@ -1,0 +1,3 @@
+
+
+(provide 'asdasd-programming-macro)
