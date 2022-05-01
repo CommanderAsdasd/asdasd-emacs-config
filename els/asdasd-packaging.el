@@ -223,7 +223,25 @@ With a prefix ARG, remove start location."
 (define-key package-menu-mode-map "a" #'package-menu-find-marks)
 
 
+(straight-use-package 'el-patch)
+
+(use-package modular-config
+   :ensure t
+   :custom
+   (modular-config-path "~/.emacs.d/els")
+   (modular-config-list '(
+			              (main (asdasd-ui asdasd-ux asdasd-grep asdasd-helm))
+                                           ;; deprecated-requires))
+			  ))
+   (modular-config-default 'main)
+   :config
+   (modular-config-command-line-args-process)
+   (global-set-key (kbd "C-c m") 'helm-modular-config)
 
 
+(use-package helm-modular-config
+  :straight (helm-modular-config :type git :host github :repo "CommanderAsdasd/emacs-helm-modular-config")
+  :straight t
+  :config (global-set-key (kbd "C-c m") 'helm-modular-config))
 
 (provide 'asdasd-packaging)
