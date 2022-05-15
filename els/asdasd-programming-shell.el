@@ -109,6 +109,16 @@
   (global-set-key (kbd "C-c u") 'undo-tree-visualize)
   )
 
+
+(defun asdasd-rerun-last-shell-command ()
+  "maps last command from command-history to [kbd]"
+    (interactive)
+    (let ((command (nth 0 shell-command-history)))
+      (save-buffer)
+      (async-shell-command `,command)))
+(global-set-key (kbd "C-x C-r") 'asdasd-rerun-last-shell-command)
+
+
 ;;; imports
 (use-package 'asdasd-programming-js)
 (use-package 'asdasd-programming-treemacs)
