@@ -9,7 +9,7 @@
   :ensure t
   :config
   (setq key-chord-two-keys-delay 0.5)
-(key-chord-mode 1)
+(key-chord-mode 0)
   (key-chord-define-global "uu" 'undo)
   (key-chord-define-global "ww" 'ace-window)
   (key-chord-define-global "`1" 'asdasd/ace-jump-paren)

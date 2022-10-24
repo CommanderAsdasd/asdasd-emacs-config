@@ -1,6 +1,6 @@
 (use-package erefactor
   :config
-  :ensure t)
+  :ensure t) 
 
 (defun asdasd/print-dir ()
   "docstring"

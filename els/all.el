@@ -1,5 +1,3 @@
 ;; module to load all
 
-
-
-((agile-modules-all ELS))
+(agile-modules-all ELS)

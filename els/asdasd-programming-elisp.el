@@ -4,25 +4,7 @@
 
 ;; * defuns
 
-(defun asdasd/print-dir ()
-  "docstring"
-  (interactive)
-  (let ((current-prefix-arg 4))
-  (command-execute (read-directory-name "dir print")))
-  )
 
-(defun asdasd/print-file ()
-  "docstring"
-  (interactive)
-  (let ((current-prefix-arg 4))
-    (command-execute (read-file-name "file print"))))
-
-(defun asdasd/print-variable (arg)
-  "reads variable"
-  (interactive "P")
-  (if (equal current-prefix-arg nil)
-      (insert (symbol-value (read-variable "print variable value:")))
-    (insert (symbol-name (read-variable "print variable name:"))))
 
 
 (defun asdasd/execute-last-command (&optional arg)

@@ -2,33 +2,9 @@
 ;;; Code:
 
 ;;; Set up helm first (will load helm-autoloads.el)
+(asdasd/signature-check-mode 0)
 
-(use-package helm
-  :config
-  (require 'helm-config)
-  (setq helm-input-idle-delay                     0.01
-        helm-reuse-last-window-split-state        t
-        helm-always-two-windows                   t
-        helm-split-window-inside-p                nil
-        helm-commands-using-frame                 '(completion-at-point
-                                                    helm-apropos
-                                                    helm-eshell-prompts helm-imenu
-                                                    helm-imenu-in-all-buffers)
-        helm-actions-inherit-frame-settings       t
-        helm-use-frame-when-more-than-two-windows t
-        helm-use-frame-when-dedicated-window      t
-        helm-frame-background-color               "DarkSlateGray"
-        helm-show-action-window-other-window      'left
-        helm-allow-mouse                          t
-        helm-move-to-line-cycle-in-source         t
-        helm-autoresize-max-height                80 ; it is %.
-        helm-autoresize-min-height                20 ; it is %.
-        helm-debug-root-directory                 "/home/thierry/tmp/helm-debug"
-        helm-debug-root-directory                 user-emacs-directory
-        helm-follow-mode-persistent               t
-        helm-candidate-number-limit               500)
-  (add-to-list 'helm-sources-using-default-as-input 'helm-source-info-bash)
-  (helm-define-key-with-subkeys global-map (kbd "C-c n") ?n 'helm-cycle-resume))
+
 
 ;;; Load all autoloads for helm extensions
 ;;
@@ -60,21 +36,6 @@
               "ack-grep -H --color --smart-case --no-group %e %p %f"))
     (message "Switched to %s" (helm-grep-command))))
 
-(defun helm/turn-on-header-line ()
-  (interactive)
-  (setq helm-echo-input-in-header-line t)
-  (setq helm-split-window-in-side-p t)
-  (helm-autoresize-mode -1)
-  (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
-  )
-
-(defun helm/turn-off-header-line ()
-  (interactive)
-  (setq helm-echo-input-in-header-line nil)
-  ;;(helm-autoresize-mode 1)
-  (setq helm-split-window-in-side-p nil)
-  (remove-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
-  )
 
 (defun helm/occur-which-func ()
   (interactive)
@@ -177,10 +138,10 @@
   ;; Fix CAP with LSP in python.
   (add-to-list 'helm-completion-styles-alist '(python-mode . helm-fuzzy)))
 
-(use-package helm-adaptive
-  :config
-  (setq helm-adaptive-history-file nil)
-  (helm-adaptive-mode 1))
+;; (use-package helm-adaptive
+  ;; :config
+  ;; (setq helm-adaptive-history-file nil)
+  ;; (helm-adaptive-mode 1))
 
 (use-package helm-utils
   :config
@@ -604,42 +565,6 @@ First call indent, second complete symbol, third complete fname."
 ;;; Global-map
 ;;
 ;;
-(global-set-key (kbd "M-x")                          'undefined)
-(global-set-key (kbd "M-x")                          'helm-M-x)
-(global-set-key (kbd "M-y")                          'helm-show-kill-ring)
-(global-set-key (kbd "C-x C-f")                      'helm-find-files)
-(global-set-key (kbd "C-c <SPC>")                    'helm-all-mark-rings)
-(global-set-key [remap bookmark-jump]                'helm-filtered-bookmarks)
-(global-set-key (kbd "C-:")                          'helm-eval-expression-with-eldoc)
-(global-set-key (kbd "C-,")                          'helm-calcul-expression)
-(global-set-key (kbd "C-h d")                        'helm-info-at-point)
-(global-set-key (kbd "C-h i")                        'helm-info)
-(global-set-key (kbd "C-x C-d")                      'helm-browse-project)
-(global-set-key (kbd "<f1>")                         'helm-resume)
-(global-set-key (kbd "C-h C-f")                      'helm-apropos)
-(global-set-key (kbd "C-h a")                        'helm-apropos)
-(global-set-key (kbd "C-h C-d")                      'helm-debug-open-last-log)
-;; (global-set-key (kbd "<f5> s")                       'helm-find)
-(global-set-key (kbd "S-<f2>")                       'helm-execute-kmacro)
-(global-set-key (kbd "C-c i")                        'helm-imenu-in-all-buffers)
-(global-set-key (kbd "C-c C-i")                      'helm-imenu)
-(global-set-key (kbd "<f11>")                        nil)
-(global-set-key (kbd "<f11> o")                      'helm-org-agenda-files-headings)
-(global-set-key (kbd "M-s")                          nil)
-(global-set-key (kbd "M-s")                          'helm-occur-visible-buffers)
-;; (global-set-key (kbd "<f6> h")                       'helm-emms)
-(define-key global-map [remap jump-to-register]      'helm-register)
-(define-key global-map [remap list-buffers]          'helm-mini)
-(define-key global-map [remap dabbrev-expand]        'helm-dabbrev)
-(define-key global-map [remap find-tag]              'helm-etags-select)
-(define-key global-map [remap xref-find-definitions] 'helm-etags-select)
-(define-key global-map (kbd "M-g a")                 'helm-do-grep-ag)
-(define-key global-map (kbd "M-g g")                 'helm-grep-do-git-grep)
-(define-key global-map (kbd "M-g i")                 'helm-gid)
-(define-key global-map (kbd "C-x r p")               'helm-projects-history)
-(define-key global-map (kbd "C-x r c")               'helm-addressbook-bookmarks)
-(define-key global-map (kbd "C-c t r")               'helm-dictionary)
-(global-set-key (kbd "C-x r l")                          'helm-bookmarks)
 
 ;; Indent or complete with completion-at-point
 ;; (setq tab-always-indent 'complete)
@@ -679,10 +604,13 @@ First call indent, second complete symbol, third complete fname."
                     (split-string (buffer-string) "\n"))))
                 #'ar/shell-send-command))
 
+(use-package helm-frame
+  :custom ())
 
 (bind-key "M-r" #'ar/helm-shell-search-history shell-mode-map)
+(global-set-key (kbd "C-x c w") 'helm)
 
-
+(asdasd/signature-check-mode 1)
 
 (provide 'init-helm)
 

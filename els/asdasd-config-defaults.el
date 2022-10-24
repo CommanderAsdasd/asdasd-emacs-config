@@ -6,7 +6,7 @@
 
 
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
@@ -19,7 +19,6 @@
 (setq byte-compile-warnings '(cl-functions))
 
 
-(winner-mode)
 (savehist-mode)
 (server-start)
 

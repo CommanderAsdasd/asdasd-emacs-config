@@ -1,0 +1,1 @@
+(load "c:/git/emacs-visualizations/kill-to-other-buffer.el")

@@ -1,2 +1,4 @@
+(use-package lispy)
+(use-package lispyville)
 
-  (provide 'asdasd-ux-keys-lispy)
+(provide 'asdasd-lispy)

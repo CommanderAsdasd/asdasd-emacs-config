@@ -13,23 +13,23 @@
                 ((org-agenda-overriding-header "\nUnscheduled TODO")
                  (org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled)))))
          nil
-         nil)))
+         nil))
+)
 
 
 (setq org-agenda-files '("c:/org-roam/"))
 (setq org-roam-directory "c:/org-roam/")
 
 
-;; TODO
-;; (setq org-capture-templates
-;;       '(("t" "Todo" entry (file "c:/msys64/home/asdasd/org-roam/20210828122253-programming_links.org") 
-;;          "** TODO %?\n %i\n")
-;;         ("l" "Link")
-;;         ;; '(setq-local $link-template "* %i %? %l")
-;;         ("le" "elisp" entry (file+headine "c:/msys64/home/asdasd/org-roam/20210828122253-programming_links.org" "elisp") "* %i %? %l") 
-;;         ("lf" "file link" entry (file+headine "c:/msys64/home/asdasd/org-roam/20210828122253-programming_links.org" "files") "* %i %? %l")
-;;         ("lc" "cpp" entry (file+headline  "c:/msys64/home/asdasd/org-roam/20210828122253-programming_links.org" "cpp") "* %i %? %l")
-;;         ))
+(setq org-capture-templates
+      '(("t" "Todo" entry (file "c:/msys64/home/asdasd/org-roam/20210828122253-programming_links.org") 
+         "** TODO %?\n %i\n")
+        ("l" "Link")
+        ;; '(setq-local $link-template "* %i %? %l")
+        ("le" "elisp" entry (file+headine "c:/msys64/home/asdasd/org-roam/20210828122253-programming_links.org" "elisp") "* %i %? %l") 
+        ("lf" "file link" entry (file+headine "c:/msys64/home/asdasd/org-roam/20210828122253-programming_links.org" "files") "* %i %? %l")
+        ("lc" "cpp" entry (file+headline  "c:/msys64/home/asdasd/org-roam/20210828122253-programming_links.org" "cpp") "* %i %? %l")
+        ))
 
 (doct '("link" :keys "l"
         :file ""
@@ -67,21 +67,18 @@
 (setq org-src-tab-acts-natively t)
 
 
-(setq
- org-structure-template-alist '(("a" . "export ascii")
- ("c" . "center")
- ("C" . "comment")
- ("e" . "example")
- ("E" . "export")
- ("h" . "export html")
- ("l" . "export latex")
- ("q" . "quote")
- ("s" . "src")
- ("v" . "verse")
- ("m" . "src bash :dir /plink:192.168.56.124:/ :results verbatim")))
-
-
-                                     
+;; (setq
+;;  org-structure-template-alist '(("a" . "export ascii")
+;;  ("c" . "center")
+;;  ("C" . "comment")
+;;  ("e" . "example")
+;;  ("E" . "export")
+;;  ("h" . "export html")
+;;  ("l" . "export latex")
+;;  ("q" . "quote")
+;;  ("s" . "src")
+;;  ("v" . "verse")
+;;  ("m" . "src bash :dir /plink:192.168.56.124:/ :results verbatim")))
 
 
 (use-package org-randomnote

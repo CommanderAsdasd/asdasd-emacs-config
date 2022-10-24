@@ -26,19 +26,20 @@
     (yank-pop))
   )
 
-(defun asdasd-copy-to-other-buffer (&optional p)
-  "copies region to other or specified buffer "
-  (interactive "P")
-  ;; why i did that
-  (let* (($old-point (point)))
-    (if (p)     
-        ((other-buffer (read-buffer)
-                       (kill-yank $old-point)))
-      ((kill-yank $old-point)))))
+;; kill-
 
-(defun asdasd/kill-to-other-buffer ()
-  (
-   (get-region-content)))
+;; c:/170202_original.jpg
 
+
+;; open url at point or find file at point via hippie-expand to key C-c C-f in every mode
+
+(use-package smart-backspace
+  :ensure t
+  :config
+  (define-key evil-insert-state-map [?\C-?] 'smart-backspace))
+
+                  
+
+;; https://emacs.stackexchange.com/questions/29/how-to-open-a-file-in-a-new-frame-without-closing-the-current-one
 
 (provide 'asdasd-text)

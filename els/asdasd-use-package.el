@@ -7,10 +7,7 @@
   (require 'package)
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.org/packages/"))
-  (package-refresh-contents)
-  (package-initialize)
-  (package-install 'el-get)
-  (require 'el-get))
+ (require 'el-get))
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 
 (use-package use-package-el-get
@@ -50,13 +47,7 @@
 ;; (use-package moccur-edit
 ;;   :ensure t)
 
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              
-              ("C-c p" . projectile-command-map)))
+
 
 
 

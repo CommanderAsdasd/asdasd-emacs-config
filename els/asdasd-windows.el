@@ -75,17 +75,37 @@
   :el-get t
   :config (add-hook 'dired-load-hook
 	        (lambda () (require 'w32-symlinks))))
+ll-interactively 'shell))
+  (insert cmd)
+  (comint-send-input)
+)
+
+
+;; run commmand with cmd.exe
+(defun run-cmd (cmd)
+  (interactive "sCommand: ")
+  (let ((explicit-shell-file-name "c:/Windows/System32/cmd.exe"))
+    (call-interactively 'shell))
+  (insert cmd)
+  (comint-send-input)
+  )
 
 (defun asdasd-windows-mklink (link)
-  "docstring"
+  "creates windows link"
   (interactive "P")
+
+  
+  ;; set cmd shell as default
+  
+  
   (let* (($type (read-string "/D: Dir"))
     ($link (read-file-name "link (points to)"))
            ($file (read-file-name "(points to) file"))
            )
-    (shell-command
+    (with-temp-buffer
+      (run-cmd
      (concat (format "mklink.exe %s \"%s\" \"%s\"" $type $link $file) "\\"  "&")
-		           )))
+		           ))))
 
 
 
