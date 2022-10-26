@@ -1,10 +1,8 @@
-;; (setq package-enable-at-startup nil)
-
+;; 
 (defun asdasd-eval-buffer ()
   (interactive)
   (eval-buffer)
   (message "evaluated buffer"))
-
 
 (define-key emacs-lisp-mode-map (kbd "C-c b") 'asdasd-eval-buffer)
 
@@ -24,24 +22,20 @@
   (load bootstrap-file nil 'nomessage))
 
 ;; https://shivjm.blog/switching-to-straight-el/
-
-;; (straight-fetch-package 'use-package)
 (straight-use-package 'use-package)
 
 
 
-(defcustom els "~/.emacs.d/els"
+(defcustom els (concat user-emacs-directory "els")
   "directory where all the elisp files are stored."
   :type 'directory
   :group 'emacs)
 
 
-;; (setenv "path" (concat (getenv "path") els))
 
 (use-package modular-config
   :straight t
   :custom (modular-config-path els)
-  ;; (modular-config-list '((main asdasd-copilot asdasd-evil))) 
   :config
   (modular-config-command-line-args-process)
   )
@@ -51,10 +45,8 @@
   :config (global-set-key (kbd "C-c m") 'helm-modular-config)
   )
 
-;; (setq-local modules 
 
-(modular-config-load-modules '(
-                               asdasd-ui asdasd-evil
+(modular-config-load-modules '(asdasd-ui asdasd-evil
                                          asdasd-shell-mingw-bash
                                          asdasd-vertico-consult
                                          asdasd-backups
@@ -62,6 +54,7 @@
                                          asdasd-copilot
                                          asdasd-evil asdasd-leader
                                          ))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
