@@ -52,7 +52,8 @@
                                          asdasd-backups
                                          asdasd-window-manage
                                          asdasd-copilot
-                                         asdasd-evil asdasd-leader
+                                         asdasd-leader
+                                         asdasd-git
                                          ))
 
 (custom-set-variables
