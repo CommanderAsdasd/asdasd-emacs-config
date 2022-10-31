@@ -54,6 +54,7 @@
                                          asdasd-copilot
                                          asdasd-leader
                                          asdasd-git
+                                         asdasd-rgrep
                                          ))
 
 (custom-set-variables
