@@ -1,4 +1,5 @@
 ;; 
+
 (defun asdasd-eval-buffer ()
   (interactive)
   (eval-buffer)
@@ -24,6 +25,8 @@
 ;; https://shivjm.blog/switching-to-straight-el/
 (straight-use-package 'use-package)
 
+(use-package emacs
+  :custom (straight-use-package-by-default t))
 
 
 (defcustom els (concat user-emacs-directory "els")
@@ -34,7 +37,6 @@
 
 
 (use-package modular-config
-  :straight t
   :custom (modular-config-path els)
   :config
   (modular-config-command-line-args-process)
@@ -54,7 +56,6 @@
                                          asdasd-copilot
                                          asdasd-leader
                                          asdasd-git
-                                         asdasd-rgrep
                                          ))
 
 (custom-set-variables
