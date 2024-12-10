@@ -1,7 +1,11 @@
-(use-package vscode-dark-plus-theme
-  :config
-  (load-theme 'vscode-dark-plus t)
-  (set-frame-font "-outline-Source Code Pro-bold-normal-normal-mono-17-*-*-*-c-*-iso8859-7" nil t))
+
+(use-package warnings
+  :config (add-to-list 'display-buffer-alist
+                       
+                       '("\\*Warning\\*" ;; Adjust the buffer name pattern to match your warning buffer's name
+                         (display-buffer-reuse-window display-buffer-in-background)
+                         (reusable-frames . 0))))
+
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
