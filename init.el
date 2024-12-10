@@ -1,14 +1,16 @@
-;; 
-
-(defun asdasd-eval-buffer ()
+(defun asdasd-eval-buffer ()vl
+  "TODO change into advice"
   (interactive)
   (eval-buffer)
   (message "evaluated buffer"))
 
 (define-key emacs-lisp-mode-map (kbd "C-c b") 'asdasd-eval-buffer)
 
-
-;; install straight.el
+(setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "els" user-emacs-directory))
+(load custom-file)
+ 
+ ;; install straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -24,51 +26,18 @@
 
 ;; https://shivjm.blog/switching-to-straight-el/
 (straight-use-package 'use-package)
-
 (use-package emacs
-  :custom (straight-use-package-by-default t))
+  :custom (straight-use-package-by-default t)
+  )
 
 
-(defcustom els (concat user-emacs-directory "els")
+(defcustom els (expand-file-name "els/" user-emacs-directory)
   "directory where all the elisp files are stored."
   :type 'directory
   :group 'emacs)
 
 
 
-(use-package modular-config
-  :custom (modular-config-path els)
-  :config
-  (modular-config-command-line-args-process)
-  )
 
-(use-package helm-modular-config
-  :straight (helm-modular-config :type git :host github :repo "CommanderAsdasd/emacs-helm-modular-config")
-  :config (global-set-key (kbd "C-c m") 'helm-modular-config)
-  )
-
-
-(modular-config-load-modules '(asdasd-ui asdasd-evil
-                                         asdasd-shell-mingw-bash
-                                         asdasd-vertico-consult
-                                         asdasd-backups
-                                         asdasd-window-manage
-                                         asdasd-copilot
-                                         asdasd-leader
-                                         asdasd-git
-                                         ))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(bmkp-last-as-first-bookmark-file "~/.emacs.d/asdbookmarks")
- '(warning-suppress-log-types '((use-package)))
- '(warning-suppress-types '((use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(require 'asdasd-ux-config)
+(asdasd-ux-config-load '("asdasd-init.el"))

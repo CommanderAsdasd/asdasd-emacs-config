@@ -25,7 +25,7 @@
 
 ; complete by copilot first, then company-mode
 
-;; (modular-config-load-modules '(asdasd-company))
+;; (asdasd-ux-config-load '("asdasd-company.el"))
 
 
 ; modify company-mode behaviors
