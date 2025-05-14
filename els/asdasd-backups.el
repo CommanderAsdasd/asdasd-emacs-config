@@ -1,13 +1,10 @@
 (use-package emacs
-  :custom ((backup-directory-alist '(("." . "~/MyEmacsBackups")))
+  :custom ((backup-directory-alist '(("." . "~/MyEmacsBackups/")))
            
-           (auto-save-visited-mode t)))
-
-
-(use-package savehist
-  :config (savehist-mode 1)
-  (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring org-capture--prompt-history)))
-
+           (auto-save-visited-mode t)
+           (auto-save-file-name-transforms
+                 `((".*" "~/MyEmacsBackups/" t)))))
+  
 (defun xah-save-all-unsaved ()
   "Save all unsaved files. no ask. Version 2019-11-05"
   (interactive)
@@ -24,12 +21,8 @@
 
 ;; (add-hook 'buffer-list-update-hook 'my-buffer-focus-out-function)
 
-(use-package recentf
-  :config (recentf-mode))
-
-
 (use-package backup-walker
-  :custom (backup-each-save-remote-files t) )
+  :custom (backup-each-save-remote-files t))
 
 
 ;; (load "i:/git/emacs-visualizations/delete-all-backups.el")
