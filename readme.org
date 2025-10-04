@@ -1,4 +1,1 @@
-Based on [[https://github.com/SidharthArya/modular-config.el/issues][modular-config.el]] and my extension of it [[https://github.com/CommanderAsdasd/emacs-helm-modular-config][emacs-helm-modular-config.el]]
-Not using ~provide~ and ~require~ since it is tedious, installing straight, use-package and establish "./els/" as modular-config-path,
-Handful of base modules loaded in modular-config-load-modules.
-Everything else loaded on demand with 'C-c m' - no more unusable broken config because of yesterday's mangling.
+most of the files are loaded in asdasd-init.el since I'm forgetting to (provide) them
