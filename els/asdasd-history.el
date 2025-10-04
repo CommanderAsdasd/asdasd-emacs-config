@@ -5,4 +5,4 @@
 
 (use-package savehist
   :config (savehist-mode 1)
-  (setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring org-capture--prompt-history)))
+  (setq savehist-additional-variables '(kill-ring recentf-list search-ring regexp-search-ring org-capture--prompt-history)))

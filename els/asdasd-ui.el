@@ -15,3 +15,18 @@
 (menu-bar-mode -1)
 
 
+(defun what-face (pos)
+  "Describe the face at POS."
+  (interactive "d")
+  (let ((face (or (get-char-property pos 'read-face-name)
+                  (get-char-property pos 'face))))
+    (if face (message "Face: %s" face) (message "No face at %d" pos))))
+
+(use-package ansi-color
+  :custom
+  (ansi-color-for-compilation-mode t "Расцветка буфера *compile*")
+  :hook
+  (compilation-filter . ansi-color-compilation-filter))
+
+;; (use-package shaoline
+;;   :straight (:host github :repo "11111000000/shaoline"))

@@ -1,0 +1,1 @@
+(load "c:/git/emacs-visualizations/async-shell-squash.el")
