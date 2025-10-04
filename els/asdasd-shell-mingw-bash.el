@@ -1,5 +1,5 @@
 ;; set mingw bash as default shell
-(setq shell-file-name "C:/msys64/usr/bin/bash.exe")
+(setq explicit-shell-file-name (executable-find "bash"))
 
 (use-package exec-path-from-shell)
 
@@ -7,5 +7,5 @@
    (bash-completion-setup)
    :config (bash-completion-setup))
 
-(setq locale-coding-system 'windows-1251)
-(prefer-coding-system 'windows-1251)
+;; (setq locale-coding-system 'windows-1251)
+;; (prefer-coding-system 'windows-1251)

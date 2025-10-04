@@ -1,0 +1,1 @@
+(load "c:/git/emacs-visualizations/dnd-shell-insert-filename.el")

@@ -1,10 +1,17 @@
-(defun asdasd-eval-buffer ()vl
-  "TODO change into advice"
-  (interactive)
-  (eval-buffer)
-  (message "evaluated buffer"))
 
-(define-key emacs-lisp-mode-map (kbd "C-c b") 'asdasd-eval-buffer)
+(defun asdasd-find-init-file ()
+  "open init.el"
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+
+
+;; (defun asdasd-eval-buffer ()
+;;   "TODO change into advice"
+;;   (interactive)
+;;   (eval-buffer)
+;;   (message "evaluated buffer"))
+
+;; (define-key emacs-lisp-mode-map (kbd "C-c b") 'asdasd-eval-buffer)
 
 (setq custom-file (expand-file-name "emacs-custom.el" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "els" user-emacs-directory))
@@ -25,10 +32,16 @@
   (load bootstrap-file nil 'nomessage))
 
 ;; https://shivjm.blog/switching-to-straight-el/
+;; (setq straight-build-dir "~/.straight-build")
+
+(setq straight-use-version-specific-build-dir t)
 (straight-use-package 'use-package)
-(use-package emacs
+(use-package straight
   :custom (straight-use-package-by-default t)
+  (straight-use-symlinks nil)
   )
+
+
 
 
 (defcustom els (expand-file-name "els/" user-emacs-directory)
@@ -37,7 +50,7 @@
   :group 'emacs)
 
 
-
-
 (require 'asdasd-ux-config)
+
 (asdasd-ux-config-load '("asdasd-init.el"))
+(put 'narrow-to-region 'disabled nil)
