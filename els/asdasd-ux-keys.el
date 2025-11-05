@@ -45,6 +45,7 @@
 (define-key function-key-map [?\M-s] nil)
 (define-key key-translation-map (kbd "C-g") (kbd "C-q"))
 (define-key key-translation-map (kbd "C-q") (kbd "C-g"))
+(define-key key-translation-map (kbd "S-SPC") (kbd "C-g"))
 (define-key key-translation-map (kbd "C-S-d") (kbd "DEL"))
  
 ;; * homerow
