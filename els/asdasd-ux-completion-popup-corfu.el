@@ -16,4 +16,4 @@
   :init
   (global-corfu-mode))
 
-use-package-verbose
+;; use-package-verbose

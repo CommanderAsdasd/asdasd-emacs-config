@@ -1,6 +1,7 @@
 (use-package dired
   :straight nil
-  :config (add-hook 'dired-mode-hook 'dired-hide-details-mode))
+  :config (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (add-hook 'dired-mode-hook 'auto-revert-mode))
 
 
 (use-package dired-filter)

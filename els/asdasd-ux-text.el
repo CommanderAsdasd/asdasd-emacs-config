@@ -1,3 +1,5 @@
+
+
 (defun process-buffer-fields (keep-first? predicate)
   "Process fields in buffer, keeping first field if KEEP-FIRST?, 
    filtering based on PREDICATE if provided"
@@ -62,19 +64,17 @@
 ("C-M-;" . whole-line-or-region-comment-dwim)
 ("C-M-S-d" . backward-kill-sexp)
 ("C-c C-o" . fixup-whitespace)
+(:map prog-mode-map ("C-c C-j" . join-line))
 (:map isearch-mode-map ("C-S-w" . kill-isearch-match)
       ("M-S-w" . copy-isearch-match))
-:config
-(default-input-method "russian-computer")
-
-
-
 :config (electric-pair-mode t)
 (delete-selection-mode 1)
 (setq-default buffer-file-coding-system 'utf-8-unix)
 :custom
 (default-input-method 'russian-computer)
 (bidi-paragraph-direction 'left-to-right)
+(bidi-display-reordering nil)
+(inhibit-bidi-mirroring t)
 (bidi-inhibit-bpa t)
 (require-final-newline nil)
 (mode-require-final-newline nil)

@@ -1,3 +1,5 @@
+(require 'asdasd-time)
+
 (defcustom asdasd-note-org-node-transclusion-nodes '() "prepared list of transcluded nodes")
 
 (defun asdasd-note-org-node-embark-insert (node)
@@ -61,10 +63,11 @@
     (org-node--goto node)
     ))
 
+
 (defun asdasd-note-org-node-find-today ()
   "prefix arg for N days back"
   (interactive)
-  (asdasd-note-org-node-find (format-time-string "%y-%m-%d " (time-subtract (current-time) (days-to-time (if current-prefix-arg current-prefix-arg 0))))))
+  (asdasd-note-org-node-find (asdasd-time-get-date current-prefix-arg)))
 
 (defun asdasd-note-org-node-find-id ()
   "prefix arg for N days back"

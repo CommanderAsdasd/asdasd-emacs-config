@@ -68,7 +68,9 @@ Works like `embark-copy-as-kill' but cleans the heading first."
   (embark-quit-after-action nil)
   
   :bind
-  ("C-." . embark-act)
+  ("M-." . embark-act)
+  (:map minibuffer-mode-map
+        ("M-." . embark-act))
   ("C-," . embark-dwim)
   ("C-h B" . embark-bindings)
   (:map embark-org-heading-map

@@ -1,2 +1,2 @@
 (use-package yafolding
-  :config )
+  :hook (prog-mode . yafolding-mode))

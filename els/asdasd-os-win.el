@@ -7,6 +7,6 @@
 
 
 (use-package emacs
-  :custom (visible-bell 1))
+  :custom )
 
 (provide 'asdasd-os-win)

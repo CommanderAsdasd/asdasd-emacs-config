@@ -19,6 +19,7 @@
 
 (use-package org
   :straight (:type built-in)
+  :bind* (:map org-mode-map ("C-c C-v C-r" . org-babel-remove-result))
   :custom
   (org-babel-default-header-args
       '((:session . "none")
@@ -53,13 +54,17 @@
            )
   (add-to-list 'org-src-lang-modes '("dockerfile" . dockerfile))
   (mapc (lambda (x) (add-to-list 'org-structure-template-alist x)) (list '("sp" . "src python")
+                                                                         '("sg" . "src go")
                                                                          '("se" . "src elisp")
                                                                          '("ss" . "src"))))
 
+
 (use-package org-tanglesync
-  :hook ((org-mode . org-tanglesync-mode)
+  :hook (
+         ;; (org-mode . org-tanglesync-mode)
          ;; enable watch-mode globally:
-         ((prog-mode text-mode) . org-tanglesync-watch-mode))
+         ;; ((prog-mode text-mode) . org-tanglesync-watch-mode)
+         )
   :config
   (defun asdasd-note-org-babel-detaglesync ()
     "auto add current buffer to watch and org-tanglesync-process-buffer-automatic"

@@ -1,6 +1,7 @@
 (require 's)
 
-(use-package path-helper)
+(use-package path-helper
+  :config (path-helper-setenv "PATH"))
 
 (defun asdasd-os-path-windize-path (path)
   "turn path to win"

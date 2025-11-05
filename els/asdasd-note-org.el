@@ -16,7 +16,10 @@
 ;;    :files (:defaults "lisp/*.el"
 ;;                      "contrib/lisp/*.el")))
 
-
+(defun asdasd-note-org-startup-fold ()
+  (interactive)
+  (org-fold-hide-block-all)
+  (org-hide-drawer-all))
 
 (use-package org
   ;; :straight nil
@@ -39,7 +42,7 @@
      (org-occur "src"))
    
    :custom
-   (org-cycle-separator-lines 0)
+   (org-cycle-separator-lines 1)
    (org-imenu-depth 10)
    (org-clock-persist t)
    (org-agenda-custom-commands
@@ -67,6 +70,7 @@
    ("C-c o l s" . org-store-link)
    (:map org-mode-map
          ("S-RET" . org-insert-heading-respect-content)
+         ("M-S-RET" . org-insert-heading)
          ("C-c o g s" . org-babel-goto-named-src-block)
          ("C-c o g h" . consult-org-heading)
          ("C-c o o" . org-occur)
@@ -91,6 +95,7 @@
           ;; '(lambda () (interactive) (org-end-of-meta-data) (call-interactively 'org-insert-structure-template))
           )
          ("C-c o h" . org-fold-hide-sublevels)
+         ("C-c o H" . asdasd-note-org-startup-fold)
          ;; ("C-c o h" . )
          )
    
@@ -112,6 +117,7 @@
    (add-hook 'org-timer-done-hook #'org-clock-out)
    (add-hook 'org-timer-stop-hook #'org-clock-out)
    (add-hook 'org-clock-in-hook #'org-id-get-create)
+   (add-hook 'org-mode-hook (lambda () (asdasd-note-org-startup-fold)))
    (add-hook 'org-mode-hook (lambda () (auto-revert-mode 1)))
    (add-hook 'org-mode-hook (lambda () (org-indent-mode 1)))
    (dolist (file-app '(("\\.html\\'" . emacs)

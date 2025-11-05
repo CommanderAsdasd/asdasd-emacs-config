@@ -10,18 +10,22 @@
 ;;   )
 
 
-
 (use-package emacs
   :bind ("C-c C-t" . toggle-theme)
   :config
 
-  (if (asdasd-os-win-wsl-p)
+  (cond
+   ((asdasd-os-win-wsl-p)
       (progn
         (load-theme 'tsdh-light t)
-        (set-frame-font "-PfEd-DejaVu Sans Mono-regular-normal-normal-*-16-*-*-*-m-0-iso10646-1" nil t))
-    (set-frame-font "-outline-Consolas-regular-normal-normal-mono-20-*-*-*-c-*-iso10646-1" nil t)
-    (load-theme 'modus-operandi-tinted t)
-      )
-  )
+        (set-frame-font "-PfEd-DejaVu Sans Mono-regular-normal-normal-*-16-*-*-*-m-0-iso10646-1" nil t)))
+   ((straight--windows-os-p)
+    (progn
+      (load-theme 'modus-operandi-tinted t)
+           (set-frame-font "-outline-Consolas-regular-normal-normal-mono-20-*-*-*-c-*-iso10646-1" nil t)
+           ))
+     ((progn (set-frame-font "-PfEd-DejaVu Sans Mono-regular-normal-normal-*-16-*-*-*-m-0-iso10646-1" nil t)
+    (load-theme 'wombat t)))))
+
 
 (use-package load-theme-buffer-local)

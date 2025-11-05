@@ -37,9 +37,10 @@
   ;; (coding-system-for-write 'utf-8)
   (default-process-coding-system '(utf-8-unix . utf-8-unix))
   (buffer-file-coding-system-explicit '(utf-8-unix utf-8-unix))
-
+  (save-buffer-coding-system 'utf-8-unix)
+  (default-process-coding-system '(utf-8-unix . utf-8-unix))
   :config
-  (setq default-process-coding-system '(utf-8-unix . utf-8-unix)) ;
+   ;
   ;; (set-buffer-process-coding-system 'nil 'nil)
   
   (unless (asdasd-os-win-wsl-p) (w32-set-system-coding-system 'utf-8-unix))
@@ -47,7 +48,7 @@
   (set-default-coding-systems 'utf-8-unix)
   (set-terminal-coding-system 'utf-8-unix)
   (set-keyboard-coding-system 'utf-8-unix)
-  (setq save-buffer-coding-system 'utf-8-unix)
+  
   
     ;; backwards compatibility as default-buffer-file-coding-system
   ;; is deprecated in 23.2.
