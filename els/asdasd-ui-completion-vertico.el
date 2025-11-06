@@ -1,6 +1,7 @@
 (use-package vertico
   :straight t
   :config (vertico-mode)
+  :custom (vertico-sort-function 'vertico-sort-alpha)
   )
 
 
