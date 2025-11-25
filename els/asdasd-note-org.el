@@ -114,6 +114,7 @@
    (add-hook 'org-clock-in-hook #'org-id-get-create)
    (add-hook 'org-mode-hook (lambda () (auto-revert-mode 1)))
    (add-hook 'org-mode-hook (lambda () (org-indent-mode 1)))
+   (add-hook 'org-mode-hook (lambda () (setq save-buffer-coding-system 'utf-8-unix)))
    (dolist (file-app '(("\\.html\\'" . emacs)
                        ("\\.pdf\\'" . emacs)
                        ("\\.org\\'" . emacs)))

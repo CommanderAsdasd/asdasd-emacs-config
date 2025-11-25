@@ -88,7 +88,7 @@
   ("C-x k m" . asdasd-ux-buffer-switch-to-opened-config)
   ("C-x k o" . asdasd-ux-buffer-switch-to-org)
   ("C-x k O" . asdasd-ux-buffer-switch-to-org-src)
-  ("C-x k p" . consult-project-buffer)
+  ;; ("C-x k p" . consult-project-buffer)
   ("C-x k *" . asdasd-ux-buffer-switch-to-special)
   ("C-x k f" . asdasd-ux-buffer-switch-to-same-file-type))
 

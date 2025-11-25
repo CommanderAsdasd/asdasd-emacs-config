@@ -1,4 +1,5 @@
 (require 'asdasd-os-win)
+(require 'asdasd-time)
 
 ;; something like this is already in the 
 ;; (defun asdasd-note-howm-find-previous-day ()
@@ -7,6 +8,40 @@
 ;;   (let* ((timestamp (parse-time-string (file-name-base (buffer-file-name))))
 ;;          (yesterday (time-subtract timestamp 86400)))))
 
+(defun asdasd-note-howm--recursive-files-prompt ()
+  (completing-read "howm note: "
+                   (directory-files-recursively howm-directory "\.org\\|\.md")
+                   nil
+                   nil
+                   (format "%s" (if (and (sexp-at-point) current-prefix-arg) (sexp-at-point) ""))))
+
+(defun asdasd-note-howm-find-file ()
+  "find any file under howm-directory"
+  (interactive)
+  (let ((vertico-sort-function 'vertico-sort-alpha))
+    (find-file (asdasd-note-howm--recursive-files-prompt))))
+
+(defun asdasd-note-howm-insert-link-on-file ()
+  "find any file under howm-directory"
+  (interactive)
+  (let ((vertico-sort-function 'vertico-sort-alpha))
+    (insert (org-link-make-string (concat "file:"
+                                          (if current-prefix-arg (asdasd-note-howm--recursive-files-prompt-day current-prefix-arg) (asdasd-note-howm--recursive-files-prompt)))) "
+")))
+
+(defun asdasd-note-howm--recursive-files-prompt-day (day)
+  (completing-read "howm note: " (directory-files-recursively howm-directory "\.org\\|\.md") nil nil (asdasd-time-get-date day)))
+
+(defun asdasd-note-howm-find-file-today ()
+  "prefix arg for N days back"
+  (interactive)
+  (let ((vertico-sort-function 'vertico-sort-alpha))
+    (find-file (asdasd-note-howm--recursive-files-prompt-day current-prefix-arg))))
+
+(defun asdasd-note-howm-find-file-id ()
+  "find any file under howm-directory"
+  (interactive)
+  (find-file (completing-read "howm note: " (directory-files-recursively howm-directory "\.org\\|\.md") nil nil "id-")))
 
 (defun asdasd-note-howm-keyword-region ()
   (interactive)
@@ -17,21 +52,39 @@
   (interactive)
   (consult-ripgrep howm-directory))
 
+(defun asdasd-note-howm-grep-links-to-current-file ()
+  "prefix arg for N days back"
+  (interactive)
+  (consult-ripgrep howm-directory (concat "file:" (string-replace (getenv "HOME") "~/" buffer-file-name))))
+
+
 (use-package howm
   :demand t
   :init
   (setq howm-prefix (kbd "C-c ;"))
   (setq howm-view-header-format "\n* [[file:%s]]\n")
   (setq howm-template "* %date %cursor %title \n %file \n")
+  (define-prefix-command 'asdasd-note-howm-prefix-map)
+  ;; (define-prefix-command 'asdasd-note-howm-prefix)
+  ;; (global-set-key (kbd "C-c ; f") 'asdasd-note-howm-prefix)
   :bind*
+  ("C-c ; f" . asdasd-note-howm-prefix-map)
+  ("C-c ; f f" . asdasd-note-howm-find-file)
+  ("C-c ; f t" . asdasd-note-howm-find-file-today)
+  ("C-c ; f i" . asdasd-note-howm-insert-link-on-file)
+  ;; ( . asdasd-note-howm-find-file-id)
   ("C-c ; r" . asdasd-note-howm-grep)
   ("C-c ; k a" . howm-keyword-add)
+
+
   ;; :bind ("C-c ; ;" . howm-menu)
   
   :custom
+  (howm-date-format "%Y-%m-%d %H:%M")
+  (howm-keyword-file (expand-file-name howm-directory ".howm-keys"))
   (howm-excluded-file-regexp "\\(^\\|[/\\\\]\\)\\([.]\\|\\(\\.\\(?:git\\|svn\\)\\|CVS\\|RCS\\|_darcs\\)[/\\\\]\\)\\|[~#]$\\|\\.\\(bak\\|elc\\|gz\\|aux\\|toc\\|idx\\|dvi\\)$\\|\\.\\(GIF\\|JP\\(?:E?G\\)\\|P\\(?:BM\\|GM\\|NG\\|PM\\)\\|TIFF?\\|X\\(?:[BP]M\\)\\|gif\\|jp\\(?:e?g\\)\\|p\\(?:bm\\|gm\\|ng\\|pm\\)\\|tiff?\\|x\\(?:[bp]m\\)\\)\\'\\|json\\|?[m]html\\|css\\\|download")
   (howm-search-other-dir (list els))
-  (howm-process-coding-system 'utf-8)  
+  (howm-process-coding-system 'utf-8-dos)  
   (howm-view-header-regexp "^* .*$")
   (howm-view-title-header "*")
   (howm-view-title-regexp "^*\\( +\\(.*\\)\\|\\)$")

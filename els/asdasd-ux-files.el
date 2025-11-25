@@ -30,6 +30,7 @@
   :bind 
   ("C-c p f" . find-file-at-point)
   (:map dired-mode-map ("C-c C-m" . my-dired-open-marked-files))
+  (:map embark-general-map ("D" . asdasd-ux-files-embark-delete-file-kill-buffer))
   :custom (save-buffer-coding-system 'utf-8)
   :config
   
@@ -43,12 +44,19 @@
             (start-process "explorer" nil "explorer" file))
           files)))
 
-(defun asdasd-delete-file-kill-buffer ()
+(defun asdasd-ux-files-delete-file-kill-buffer ()
   ""
   (interactive)
   (when (yes-or-no-p "delete file kill buffer? ")
     (delete-file buffer-file-name)
     (kill-buffer)))
+
+(defun asdasd-ux-files-embark-delete-file-kill-buffer (&optional candidate)
+  ""
+  (when (yes-or-no-p (format "delete file kill buffer? %s" candidate))
+    (delete-file candidate)
+    (when (get-file-buffer candidate) (kill-buffer (get-file-buffer candidate)))))
+
 
 
 

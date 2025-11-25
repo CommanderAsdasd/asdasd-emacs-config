@@ -2,9 +2,6 @@
   :bind ("C-c e R" . erefactor-rename-symbol-in-buffer)
   )
 
-(use-package erefactor
-  :custom ())
-
 ;; (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
 (use-package elisp-def
   :bind ("C-c d" . elisp-def))
@@ -60,5 +57,7 @@
 
 (use-package el-search
   :config )
+
+(use-package emr)
 
 (provide 'asdasd-code-elisp)

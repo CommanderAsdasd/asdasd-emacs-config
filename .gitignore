@@ -1,0 +1,17 @@
+auto-save/*
+*~
+org/*
+*\.elc
+lock-files/*
+server/*
+transient/*
+savehist.el
+recentf-save.el
+mc-list.el
+project-list.el
+persistent-scratch.el
+bookmark-default.el
+.#*
+tmp*
+.project.org
+custom.el

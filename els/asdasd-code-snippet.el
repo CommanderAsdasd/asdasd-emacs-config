@@ -6,5 +6,6 @@
 
 (use-package yasnippet-capf
   :config (add-to-list 'completion-at-point-functions #'yasnippet-capf)
-  (add-hook 'org-mode-hook '(lambda () (add-to-list 'completion-at-point-functions #'yasnippet-capf))))
+  (add-hook 'org-mode-hook '(lambda () (add-to-list 'completion-at-point-functions #'yasnippet-capf)))
+  :bind ("C-c x" . yasnippet-capf))
 

@@ -24,6 +24,10 @@
 
 (add-hook 'god-local-mode-hook 'asdasd-keys-meow-swtich-global-mode)
 
+(defun asdasd-keys-meow-global-mode-off ()
+  (meow-global-mode 0)
+  (asdasd-keys-meow-cursor-mode-check))
+
 (defun asdasd-keys-meow-swtich-global-mode ()
   (meow-global-mode (if meow-global-mode 0 1)))
 
@@ -62,6 +66,7 @@
   (add-to-list 'meow-mode-state-list '(minibuffer-mode . normal))
   :bind*
   ("C-M-S-j" . asdasd-keys-meow-switch-emacs-mode)
+  ;; ("M-J" .  asdasd-keys-meow-switch-insert-mode)
   ("C-S-j" .  asdasd-keys-meow-switch-insert-mode)
   :custom
   (meow-use-clipboard t)

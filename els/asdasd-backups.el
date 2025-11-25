@@ -10,7 +10,6 @@
   (save-some-buffers t)                 ;
   (savehist-save)
   ;; (bookmark-save)
-  
   )
 
 (if (version< emacs-version "27")

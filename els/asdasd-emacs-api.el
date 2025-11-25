@@ -12,3 +12,4 @@
     (insert (kbd keybinding))))
 
 
+(provide 'asdasd-emacs-api)

@@ -12,6 +12,7 @@
                          "asdasd-ui-theme.el"
                          "asdasd-ui-window.el"
                          "asdasd-ui-completion-vertico.el"
+                         "asdasd-ux-narrow.el"
                          "asdasd-ux.el"
                          "asdasd-ux-avy.el"
                          "asdasd-ux-window.el"

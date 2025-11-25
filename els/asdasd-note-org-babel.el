@@ -53,8 +53,11 @@
            )
   (add-to-list 'org-src-lang-modes '("dockerfile" . dockerfile))
   (mapc (lambda (x) (add-to-list 'org-structure-template-alist x)) (list '("sp" . "src python")
+                                                                         '("sg" . "src go")
                                                                          '("se" . "src elisp")
-                                                                         '("ss" . "src"))))
+                                                                         '("ssh" . "src sh")
+                                                                         '("ssr" . "src")
+                                                                         '("sb" . "src bash"))))
 
 (use-package org-tanglesync
   :hook ((org-mode . org-tanglesync-mode)

@@ -43,6 +43,12 @@
   (kill-new (getenv "PATH"))
   )
 
+(defun asdasd-os-path-kill-env-var ()
+  ""
+  (interactive)
+  (kill-new (call-interactively 'getenv))
+  )
+
 
 (defun asdasd-os-path-current-dir-to-path (dir)
   ""
