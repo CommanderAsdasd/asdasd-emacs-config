@@ -6,7 +6,7 @@
 
 (defun asdasd-sync-wsl-emacs-d-push ()
   (interactive)
-  (async-shell-command "wsl -e bash -c \"cd /home/leksandrankovskii/.emacs.d; git push\"" ))
+  (async-shell-command "wsl -e bash -c \"cd /home/leksandrankovskii/.emacs.d; git push\"" "*wsl-push*" "*wsl-push*"))
 
 
 (provide 'asdasd-sync)
