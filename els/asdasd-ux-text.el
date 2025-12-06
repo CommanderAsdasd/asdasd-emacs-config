@@ -1,3 +1,14 @@
+(defun asdasd-ux-text-increment-number-at-point ()
+  "Increment the number at point by 1."
+  (interactive)
+  (save-excursion
+    (skip-chars-backward "0-9")
+    (if (looking-at "[0-9]+")
+        (let* ((num (string-to-number (match-string 0))))
+          (replace-match (number-to-string (1+ num))))
+      (error "No number at point"))))
+
+
 (defun asdasd-ux-keys-delete-horizontal-space-insert-one ()
   "Delete all and insert one trailing whitespace between START and END."
   (interactive)

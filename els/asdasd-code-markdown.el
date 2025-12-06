@@ -18,3 +18,6 @@
 
 (use-package markdown-to-org
   :straight (:host github :repo "modeverv/markdown-to-org"))
+
+(use-package md-babel
+  :straight (:host github :repo "md-babel/md-babel.el") )

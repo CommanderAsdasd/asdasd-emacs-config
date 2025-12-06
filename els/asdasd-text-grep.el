@@ -7,3 +7,6 @@
   :bind ("C-c r r" . consult-grep)
   ("C-c r e" . consult-everything)
   )
+
+(use-package grep-context
+  :config )

@@ -1,4 +1,4 @@
-(defun insert-key-sequence ()
+(defun asd-ux-keys-insert-key-sequence ()
   "Prints out the key sequence entered by the user."
   (interactive)
   (let* ((key-seq (read-key-sequence "Enter key sequence: " nil nil))
@@ -116,7 +116,7 @@ If KEY-SEQUENCE is omitted, prompt for one."
   ("C-S-f" . kill-whole-line)
   ("M-Q" . async-shell-command)
   (:map help-map
-  ("h" . insert-key-sequence))
+  ("h" . asd-ux-keys-insert-key-sequence))
   ;; ("C-")-
   ;; :map minibuffer-mode-map
   ;;                               ("C-c C-c" . keyboard-quit);

@@ -63,4 +63,6 @@
 (use-package edit-list
   :config )
 
+(use-package ert)
+
 (provide 'asdasd-code-elisp)

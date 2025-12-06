@@ -1,28 +1,26 @@
-(defun asdasd-note-org-occur-src ()
-  ""
-  (interactive)
-  (org-occur "src"))
 
 
-(straight-use-package
- `(org
-   :type git
-   :repo "https://code.orgmode.org/bzg/org-mode.git"
-   :depth full
-   :build (:not autoloads)
-   :local-repo "org"
-   :pre-build
-   ,(list
-                (concat (when (eq system-type 'berkeley-unix) "g")
-                        "make")
-                "autoloads"
-                "EMACS=\"c:/Program Files/Emacs/emacs-30.1/bin/emacs.exe\"")
-   :files (:defaults "lisp/*.el"
-                     "contrib/lisp/*.el")))
+
+;; (straight-use-package
+;;  `(org
+;;    :type git
+;;    :repo "https://code.orgmode.org/bzg/org-mode.git"
+;;    :depth full
+;;    :build (:not autoloads)
+;;    :local-repo "org"
+;;    :pre-build
+;;    ,(list
+;;                 (concat (when (eq system-type 'berkeley-unix) "g")
+;;                         "make")
+;;                 "autoloads"
+;;                 "EMACS=\"c:/Program Files/Emacs/emacs-30.1/bin/emacs.exe\"")
+;;    :files (:defaults "lisp/*.el"
+;;                      "contrib/lisp/*.el")))
 
 
 
 (use-package org
+   :straight (:type built-in)
    :preface (defun asdasd-note-org-insert-subheading-after ()
               "skips metadata and org-insert-subheading"
               (interactive)
@@ -31,12 +29,27 @@
    ;; (defun o (orig-func &rest args) (ins e rt " ") (call-interactively orig-func))
   
 
-   ;; (advice-add 'org-insert-link :around  #'org-insert-link-with-space)
-  
+   (defun asdasd-note-org-insert-subheading-safe ()
+     "saves letter by inserting space"
+     (interactive)
+     (insert " ")
+     (org-insert-subheading (prefix-numeric-value nil)))
+
+   (defun asdasd-note-org-occur-src ()
+     "occur only src blocks"
+     (interactive)
+     (org-occur "src"))
+   
    :custom
-  
+   (org-cycle-separator-lines 0)
+   (org-imenu-depth 10)
+   (org-clock-persist t)  
    (org-blank-before-new-entry '((heading) (plain-list-item)))
    (org-startup-indented t)
+   (org-tags-column -80)
+   (org-agenda-prefix-format "(%i %T) %-15c %t")
+   (org-keep-stored-link-after-insertion t)
+   (org-id-link-to-org-use-id t)
    (org-startup-truncated nil)
    (org-src-ask-before-returning-to-edit-buffer nil)
    (org-src-window-setup 'plain)
@@ -46,11 +59,18 @@
    (org-refile-targets '((nil :maxlevel . 10)))
    (org-timestamp-formats "<%Y-%m-%d %a %H:%M>")
    :bind*
+   ;; (:repeat-map org-mode-repeat-map
+   ;;      ("o" . org-babel-next-src-block)
+   ;;      ("p" . org-babel-previous-src-block))
    ("C-c o l s" . org-store-link)
    (:map org-mode-map
+         ("S-RET" . org-insert-heading-respect-content)
+         ("C-c o g s" . org-babel-goto-named-src-block)
+         ("C-c o g h" . consult-org-heading)
+         ("C-c o o" . org-occur)
          ("C-c o s" . asdasd-note-org-occur-src)
          ("C-c o h" . org-fold-hide-sublevels)
-         ("M-s M-m" . org-insert-subheading)
+         ("M-s M-m" . asdasd-note-org-insert-subheading-safe)
          ("M-s M-b" . org-metaleft)
          ("M-s M-n" . org-metadown)
          ("M-s M-p" . org-metaup)
@@ -80,10 +100,14 @@
             "NONE(n)")))
    
    (add-hook 'org-timer-set-hook #'org-clock-in)
+   (add-hook 'org-timer-done-hook #'org-clock-out)
    (add-hook 'org-timer-stop-hook #'org-clock-out)
+   (add-hook 'org-clock-in-hook #'org-id-get-create)
    (add-hook 'org-mode-hook (lambda () (auto-revert-mode 1) (org-fold-hide-block-all) (org-hide-drawer-all)))
    (add-hook 'org-mode-hook (lambda () (org-indent-mode)))
-   (dolist (file-app '(("\\.html\\'" . emacs)
+   (dolist (file-app '((auto-mode . emacs)
+                       (directory . emacs)
+                       ("\\.html\\'" . emacs)
                        ("\\.pdf\\'" . emacs)
                        ("\\.org\\'" . emacs)))
     
@@ -149,3 +173,6 @@
   :demand t
   :straight (:host github :repo "yibie/org-include-inline")
   :config )
+
+(use-package org-remark
+  )

@@ -16,6 +16,15 @@
   "add PATH to env var PATH"
   (asdasd-os-path-add-to-path path))
 
+(defun asdasd-embark-edebug-intrument-function (function)
+  ""
+  (edebug-instrument-function (intern (substring-no-properties function)))
+  )
+
+(defun asdasd-embark-edebug-eval-expression (candidate)
+  ""
+  (message (edebug-eval (intern (substring-no-properties candidate))))
+  )
 
 ;; (defvar asdasd-embark-org-node--tags-list () "docstring")
 
@@ -33,15 +42,14 @@
 ;;   "object at point to mp3"
 ;;   (interactive "P")
 ;;   (start-process-shell-command "ffmpeg" (concat "*" (compile-time-function-name) "*")  (format "-i %s -o %s.mp3" (object))))
-
-(defun asdasd-embark-os-file-manager-here (file)
-    "executes windows file manager command for FILE"
-    (let ((truename (file-truename file))
-          (default-directory (file-name-directory file)))
-      (kill-new truename)
-      ( file)
-      (start-process-shell-command "explorer" (concat "*" (compile-time-function-name) "*")  (format "explorer /select,\" %s \"" (file-name-nondirectory truename))
-                                   )))
+  
+(defun asdasd-embark-org-copy-heading-as-kill ()
+  "Copy org heading text without the leading stars into the kill ring.
+Works like `embark-copy-as-kill' but cleans the heading first."
+  (interactive)
+  (let ((heading (org-get-heading t t t t)))
+    (kill-new heading)
+    (message "Copied heading: %s" heading)))
 
 
 (defun asdasd-embark-everything (candidate)
@@ -49,6 +57,11 @@
   (consult-everything candidate)
   )
 
+(defun asdasd-embark-os-file-manager-here (file)
+  "executes windows file manager command for FILE"
+  (let ((truename (file-truename file)))
+    (kill-new truename)
+    (start-process-shell-command "explorer"  nil (format "explorer /select,\"%s\"" (replace-regexp-in-string "/" "\\\\" truename)))))
 
 (defun asdasd-embark-save-full-path (file)
   "like embark-save-relative-path"
@@ -66,8 +79,8 @@
 (use-package embark
   :custom (embark-quit-after-action nil)
   :bind*
-  ("C-." . embark-act)
-  ("C-," . embark-dwim)
+  ("M-." . embark-act)
+  ("M-," . embark-dwim)
   ("C-h B" . embark-bindings)
   (:map embark-file-map
         ("W" . asdasd-embark-save-full-path)
@@ -87,7 +100,8 @@
         ("f" . asdasd-embark-buffer-file-name)
         ("d" . asdasd-embark-buffer-file-name-directory))
   (:map embark-symbol-map
-        ("l" .  asdasd-embark-setq-local))
+        ("l" .  asdasd-embark-setq-local)
+        ("Q" . asdasd-embark-edebug-eval-expression))
   (:map embark-identifier-map
         ("p" . system-packages-install)
         ("P" . system-packages-uninstall))
@@ -96,6 +110,9 @@
         ("I" . package-install))
   (:map embark-general-map
         ("t" . asdasd-embark-org-node-add-tag))
+  (:map embark-function-map
+        ("D" . asdasd-embark-edebug-intrument-function)
+        ("Q" . asdasd-embark-edebug-eval-expression))
   )
 
 

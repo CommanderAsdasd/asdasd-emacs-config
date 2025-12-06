@@ -46,8 +46,11 @@
 (defun asdasd-delete-file-kill-buffer ()
   ""
   (interactive)
-  (delete-file buffer-file-name)
-  (kill-buffer))
+  (when (yes-or-no-p "delete file kill buffer? ")
+    (delete-file buffer-file-name)
+    (kill-buffer)))
+
+
 
 
 (defun asdasd-ux-files-rename-append-kill-ring-contents ()

@@ -9,3 +9,7 @@
   :after vertico
   :straight t
   :config (marginalia-mode))
+
+
+(use-package vertico-truncate
+  :straight (:host github :repo "jdtsmith/vertico-truncate"))

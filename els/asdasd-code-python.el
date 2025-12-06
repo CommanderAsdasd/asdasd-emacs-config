@@ -4,6 +4,10 @@
 
 ;; (use-package auto-virtualenvwrapper)
 
+(use-package python
+  :straight (:type built-in)
+  :config (add-hook 'python-mode-hook 'auto-revert-mode))
+
 (use-package pyvenv
   :custom  (pyvenv-virtual-env-path-directories ""))
 
