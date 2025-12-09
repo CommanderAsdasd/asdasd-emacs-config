@@ -15,11 +15,20 @@
                    nil
                    (format "%s" (if (and (sexp-at-point) current-prefix-arg) (sexp-at-point) ""))))
 
+(defun asdasd-note-howm--recursive-files-prompt-quick ()
+  (completing-read "howm note: "
+                   ;; (directory-files-recursively howm-directory "\.org\\|\.md")
+                   (split-string (shell-command-to-string "find ./ -type f  \\( -name '*.org' -o -name '*.md' \\)  -printf \"%p\n\"") "\n" t)
+                   nil
+                   nil
+                   (format "%s" (if (and (sexp-at-point) current-prefix-arg) (sexp-at-point) ""))))
+
 (defun asdasd-note-howm-find-file ()
   "find any file under howm-directory"
   (interactive)
   (let ((vertico-sort-function 'vertico-sort-alpha))
-    (find-file (asdasd-note-howm--recursive-files-prompt))))
+    (let ((default-directory howm-directory))
+      (find-file (asdasd-note-howm--recursive-files-prompt-quick)))))
 
 (defun asdasd-note-howm-insert-link-on-file ()
   "find any file under howm-directory"
@@ -30,13 +39,18 @@
 ")))
 
 (defun asdasd-note-howm--recursive-files-prompt-day (day)
+  "pre-fills howm-directory recursive prompt with ARG is num of DAY before today"
   (completing-read "howm note: " (directory-files-recursively howm-directory "\.org\\|\.md") nil nil (asdasd-time-get-date day)))
+
+(defun asdasd-note-howm--recursive-files-prompt-day-quick (day)
+  "reduces directory-files-recursively to chosen month"
+  (completing-read "howm note: " (directory-files-recursively (expand-file-name (asdasd-time-get-date day "%Y/%m") howm-directory) "\.org\\|\.md") nil nil (asdasd-time-get-date day)))
 
 (defun asdasd-note-howm-find-file-today ()
   "prefix arg for N days back"
   (interactive)
-  (let ((vertico-sort-function 'vertico-sort-alpha))
-    (find-file (asdasd-note-howm--recursive-files-prompt-day current-prefix-arg))))
+  (let ((vertico-sort-function 'vertico-sort-alpha))default-directory
+    (find-file (asdasd-note-howm--recursive-files-prompt-day-quick current-prefix-arg ))))
 
 (defun asdasd-note-howm-find-file-id ()
   "find any file under howm-directory"
@@ -80,7 +94,8 @@
   ;; :bind ("C-c ; ;" . howm-menu)
   
   :custom
-  (howm-date-format "%Y-%m-%d %H:%M")
+  (howm-date-format "%Y-%m-%d ")
+  (howm-reminder-today-format "[%Y-%m-%d %H:%M]")
   (howm-keyword-file (expand-file-name howm-directory ".howm-keys"))
   (howm-excluded-file-regexp "\\(^\\|[/\\\\]\\)\\([.]\\|\\(\\.\\(?:git\\|svn\\)\\|CVS\\|RCS\\|_darcs\\)[/\\\\]\\)\\|[~#]$\\|\\.\\(bak\\|elc\\|gz\\|aux\\|toc\\|idx\\|dvi\\)$\\|\\.\\(GIF\\|JP\\(?:E?G\\)\\|P\\(?:BM\\|GM\\|NG\\|PM\\)\\|TIFF?\\|X\\(?:[BP]M\\)\\|gif\\|jp\\(?:e?g\\)\\|p\\(?:bm\\|gm\\|ng\\|pm\\)\\|tiff?\\|x\\(?:[bp]m\\)\\)\\'\\|json\\|?[m]html\\|css\\\|download")
   (howm-search-other-dir (list els))
