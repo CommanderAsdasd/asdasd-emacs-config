@@ -8,5 +8,8 @@
   (interactive)
   (async-shell-command "wsl -e bash -c \"cd /home/leksandrankovskii/.emacs.d; git push\"" "*wsl-push*" "*wsl-push*"))
 
+(defun asdasd-sync-ediff-compare-current-file ()
+  (interactive)
+    (magit-ediff-compare "linux-work-vdi" nil buffer-file-truename buffer-file-truename))
 
 (provide 'asdasd-sync)

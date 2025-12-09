@@ -103,4 +103,19 @@
 
 (use-package eyebrowse)
 
+(defun asdasd-ux-buffer-consult-read-messages-buffer ()
+  "Use `consult-completing-read` to read lines from the *Messages* buffer."
+  (interactive)
+  (let* ((messages-buffer "*Messages*")
+         (lines (when (get-buffer messages-buffer)
+                  (split-string (with-current-buffer messages-buffer
+                                  (buffer-substring-no-properties (point-min) (point-max)))
+                                "\n" t))))
+    (when lines
+      (let ((selected-line (consult--read lines
+                                          :prompt "Select line: "
+                                          :sort nil)))
+        (when selected-line
+          (message "%s" selected-line))))))
+
 (provide 'asdasd-ux-buffer)
