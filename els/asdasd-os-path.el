@@ -34,11 +34,16 @@
 
 
  ;; [2025-07-05 18:44]+ TODO - make interactive with consult
-(defun asdasd-os-path-add-to-path (&optional dir prepend )
+(defun asdasd-os-path-add-to-path (&optional dir prepend)
   "appends DIR to path. If NOSET then only return resulting path"
-  (interactive (list (read-directory-name "add to PATH")))
-  (let ((new-path (concat (getenv "PATH") ";" dir)))
-    (add-to-list 'load-path dir)
+  (interactive (list (read-directory-name (format "%s to PATH" (if current-prefix-arg "prepend" "append")))
+               (when current-prefix-arg t)))
+  (let* ((path (getenv "PATH"))
+         (new-path
+         (if prepend
+             (concat dir ";" path)
+             (concat path ";" dir))))
+    (add-to-list 'load-path dir (not prepend))
     ;; (if noset new-path ))
     (setenv "PATH" new-path)))
 
