@@ -22,9 +22,27 @@
 ;; (add-hook 'focus-out-hook 'asdasd-os-clipboard-howm-exchanger-save)
 ;; (add-hook 'focus-in-hook 'asdasd-os-clipboard-howm-exchanger-load)
 
+(defun asdasd-os-clipboard-howm-save-path-for-find-file ()
+  "write to sync file path witch other instance needs to open"
+  (interactive)
+  (write-region buffer-file-truename nil (expand-file-name "find-file-sync" howm-directory))
+  (message "saved to find-file-sync file"))
+
+(defun asdasd-os-clipboard-howm-load-path-for-find-file ()
+  "open path from sync file"
+  ;; (interactive)
+  (interactive)
+  (with-temp-buffer
+    (insert-file-contents (expand-file-name "find-file-sync" howm-directory))
+    (find-file (buffer-string)))
+  (message "loaded path from find-file-sync file"))
+
 (use-package emacs
-  :bind ("M-s c s" . asdasd-os-clipboard-howm-exchanger-save-last-kill-ring)
-  ("M-s c l" . asdasd-os-clipboard-howm-exchanger-load))
+  :bind* ("M-s s c s" . asdasd-os-clipboard-howm-exchanger-save-last-kill-ring)
+  ("M-s s c l" . asdasd-os-clipboard-howm-exchanger-load)
+  ("M-s s f s" . asdasd-os-clipboard-howm-save-path-for-find-file)
+  ("M-s s f l" . asdasd-os-clipboard-howm-load-path-for-find-file)
+  )
 
 (use-package clipmon
   :bind* ("M-s c m" . clipmon-autoinsert-toggle)

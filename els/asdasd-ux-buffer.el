@@ -72,6 +72,21 @@
   (interactive)
   (asdasd-ux-buffer-switch-to-buffer-type "Special buffers:" (concat "." (file-name-extension (buffer-file-name)))))
 
+(defun asdasd-ux-buffer-consult-read-messages-buffer ()
+  "Use `consult-completing-read` to read lines from the *Messages* buffer."
+  (interactive)
+  (let* ((messages-buffer "*Messages*")
+         (lines (when (get-buffer messages-buffer)
+                  (reverse (split-string (with-current-buffer messages-buffer
+                                  (buffer-substring-no-properties (point-min) (point-max)))
+                                "\n" t)))))
+    (when lines
+      (let ((selected-line (consult--read lines
+                                          :prompt "Select line: "
+                                          :sort nil)))
+        (when selected-line
+          (message "%s" selected-line))))))
+
 (use-package emacs
   :custom (confirm-kill-processes nil)
   (use-short-answers t)
@@ -86,6 +101,7 @@
   ("C-x k i" . asdasd-ux-buffer-switch-to-indirect)
   ("C-x k e" . asdasd-ux-buffer-switch-to-embark)
   ("C-x k m" . asdasd-ux-buffer-switch-to-opened-config)
+  ("C-x k M" . asdasd-ux-buffer-consult-read-messages-buffer)
   ("C-x k o" . asdasd-ux-buffer-switch-to-org)
   ("C-x k O" . asdasd-ux-buffer-switch-to-org-src)
   ;; ("C-x k p" . consult-project-buffer)
@@ -102,5 +118,7 @@
 
 
 (use-package eyebrowse)
+
+
 
 (provide 'asdasd-ux-buffer)

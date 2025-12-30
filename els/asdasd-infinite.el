@@ -1,3 +1,5 @@
-(package-vc-install "https://gitlab.com/andreyorst/infinite.el" nil)
+(use-package infinite
+  :straight (:host github :repo "andreyorst/infinite.el"))
 
 (provide 'asdasd-infinite)
+
