@@ -1,7 +1,9 @@
+(require 'asdasd-globals)
+
 (use-package no-littering
   :init
-  (setq no-littering-etc-directory "~/.cache/emacs")
-  (setq no-littering-var-directory "~/.emacs.d/")
+  (setq no-littering-etc-directory asdasd-globals-cache-dir)
+  (setq no-littering-var-directory asdasd-globals-cache-dir)
   :custom
   (custom-file (expand-file-name "custom.el" user-emacs-directory))
   ;; or

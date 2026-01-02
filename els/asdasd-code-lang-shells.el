@@ -43,8 +43,9 @@
 (use-package shell
   :bind ("C-!" . async-shell-command)("M-&" . shell-command)
   :custom
-  ((explicit-bash-args '("--login" "-i"))
-   (shell-file-name "bash"))
+  (explicit-bash-args '("--login" "-i"))
+   (shell-file-name "bash")
+  (shell-history-file-name "~/.bash_history")
   :config
   (setenv "SHELL" shell-file-name)
   ;; (add-hook 'shell-mode-hook

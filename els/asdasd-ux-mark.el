@@ -5,7 +5,7 @@
   :bind ("C-{" . pop-to-mark-command))
 
 (use-package visible-mark
-  :config (visible-mark-mode))
+  :config (global-visible-mark-mode))
 
 (use-package backward-forward
   :bind ("") )

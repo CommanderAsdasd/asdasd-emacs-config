@@ -1,4 +1,21 @@
+(require 'asdasd-note-org-babel)
 
+(defun asdasd-ux-text-show-all-invisible-text ()
+  (remove-text-properties (point-min) (point-max) '(invisible nil)))
+
+(defun asdasd-ux-text-delete-all-invisible-text ()
+  (save-excursion
+  (goto-char (point-min))
+  (while (not (eobp))
+    (let ((prop (get-text-property (point) 'invisible)))
+      (if prop
+          (delete-region
+           (point)
+           (or (next-single-property-change (point) 'invisible)
+               (point-max)))
+        (goto-char
+         (or (next-single-property-change (point) 'invisible)
+             (point-max))))))))
 
 (defun process-buffer-fields (keep-first? predicate)
   "Process fields in buffer, keeping first field if KEEP-FIRST?, 
@@ -55,54 +72,58 @@
       (funcall action))))
 
 (use-package emacs
-:bind*
-("C-c p U" . thing-copy-url)
-("C-c p u" . browse-url-at-point)
-("C-c p f" . find-file-at-point)
-("C-c p F" . browse-url-of-file)
-("C-;" . comment-line)
-("C-M-;" . whole-line-or-region-comment-dwim)
-("C-M-S-d" . backward-kill-sexp)
-("C-c C-o" . fixup-whitespace)
-(:map isearch-mode-map ("C-S-w" . kill-isearch-match)
-      ("M-S-w" . copy-isearch-match))
-:config
-(default-input-method "russian-computer")
-
-
-
-:config (electric-pair-mode t)
-(delete-selection-mode 1)
-(setq-default buffer-file-coding-system 'utf-8-unix)
-:custom
-(default-input-method 'russian-computer)
-(bidi-paragraph-direction 'left-to-right)
-(bidi-inhibit-bpa t)
-(require-final-newline nil)
-(mode-require-final-newline nil)
-)
+  :bind*
+  ("M-J" . join-line)
+  ("M-W" . asdasd-ux-text-copy-to-other-window)
+  ("C-c p U" . thing-copy-url)
+  ("C-c p u" . browse-url-at-point)
+  ("C-c p f" . find-file-at-point)
+  ("C-c p F" . browse-url-of-file)
+  ("C-;" . comment-line)
+  ("C-M-;" . whole-line-or-region-comment-dwim)
+  ("C-M-S-d" . backward-kill-sexp)
+  ("C-c C-o" . fixup-whitespace)
+  (:map prog-mode-map ("C-c C-j" . join-line))
+  (:map isearch-mode-map ("C-S-w" . kill-isearch-match)
+        ("M-S-w" . copy-isearch-match))
+  :config (electric-pair-mode t)
+  (delete-selection-mode 1)
+  (setq-default buffer-file-coding-system 'utf-8-unix)
+  :custom
+  (default-input-method 'russian-computer)
+  (bidi-paragraph-direction 'left-to-right)
+  (bidi-display-reordering nil)
+  (inhibit-bidi-mirroring t)
+  (bidi-inhibit-bpa t)
+  (require-final-newline nil)
+  (mode-require-final-newline nil)
+  )
 
 
 (defun asdasd-ux-text-yank-around-region (text-region text-beginning text-end)
-"wraps TEXT-REGION in two last elements (TEXT-BEGINNING TEXT-END) of kill-ring "
-(interactive (list (buffer-substring (region-beginning) (region-end))
-                   (car kill-ring)
-                   (cadr kill-ring)))
+  "wraps TEXT-REGION in two last elements (TEXT-BEGINNING TEXT-END) of kill-ring "
+  (interactive (list (buffer-substring (region-beginning) (region-end))
+                     (car kill-ring)
+                     (cadr kill-ring)))
              
-(delete-region (region-beginning) (region-end))
-(insert text-beginning)
-(insert text-region)
-(insert text-end))
+  (delete-region (region-beginning) (region-end))
+  (insert text-beginning)
+  (insert text-region)
+  (insert text-end))
 
 
 
 (defun asdasd-ux-text-copy-to-other-window ()
-  ""
+  "test"
   (interactive)
-  (save-excursion (kill-new (buffer-substring-no-properties (region-beginning) (region-end)))
-                  (other-window 1)
-                  (yank)
-                  (other-window -1)))
+  (save-excursion (let ((beg (if (use-region-p) (region-beginning) (line-beginning-position)))
+                        (end (if (use-region-p) (region-end) (line-end-position))))
+                    (kill-new (buffer-substring-no-properties beg end))
+                    (other-window 1)
+                    (if current-prefix-arg (org-rich-yank) (yank))
+                    (insert "
+")
+                    (other-window -1))))
 
 
 

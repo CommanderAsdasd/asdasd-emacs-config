@@ -57,10 +57,18 @@
   (interactive)
   (asdasd-ux-buffer-switch-to-buffer-type "Org buffer:" "\\\.org "))
 
+(advice-add 'asdasd-ux-buffer-switch-to-org :before #'asdasd-ux-advice-vertico-sort-alpha)
+
+
 (defun asdasd-ux-buffer-switch-to-org-src ()
   ""
   (interactive)
   (asdasd-ux-buffer-switch-to-buffer-type "Org src buffer:" "Org Src "))
+
+(defun asdasd-ux-buffer-switch-to-babel-sessions ()
+  "consult buffers *session*"
+  (interactive)
+  (asdasd-ux-buffer-switch-to-buffer-type "session:" "* session *"))
 
 (defun asdasd-ux-buffer-switch-to-special ()
   ""
@@ -72,25 +80,11 @@
   (interactive)
   (asdasd-ux-buffer-switch-to-buffer-type "Special buffers:" (concat "." (file-name-extension (buffer-file-name)))))
 
-(defun asdasd-ux-buffer-consult-read-messages-buffer ()
-  "Use `consult-completing-read` to read lines from the *Messages* buffer."
-  (interactive)
-  (let* ((messages-buffer "*Messages*")
-         (lines (when (get-buffer messages-buffer)
-                  (reverse (split-string (with-current-buffer messages-buffer
-                                  (buffer-substring-no-properties (point-min) (point-max)))
-                                "\n" t)))))
-    (when lines
-      (let ((selected-line (consult--read lines
-                                          :prompt "Select line: "
-                                          :sort nil)))
-        (when selected-line
-          (message "%s" selected-line))))))
-
 (use-package emacs
   :custom (confirm-kill-processes nil)
   (use-short-answers t)
   :bind*
+  ("C-x C-y" . revert-buffer)
   ("C-x m" . (lambda () (interactive) (switch-to-buffer-other-window "*Messages*")))
   ("C-x b" . kill-buffer)
   ("C-x k k" . switch-to-buffer)
@@ -101,12 +95,12 @@
   ("C-x k i" . asdasd-ux-buffer-switch-to-indirect)
   ("C-x k e" . asdasd-ux-buffer-switch-to-embark)
   ("C-x k m" . asdasd-ux-buffer-switch-to-opened-config)
-  ("C-x k M" . asdasd-ux-buffer-consult-read-messages-buffer)
   ("C-x k o" . asdasd-ux-buffer-switch-to-org)
   ("C-x k O" . asdasd-ux-buffer-switch-to-org-src)
-  ;; ("C-x k p" . consult-project-buffer)
+  ("C-x k p" . consult-project-buffer)
   ("C-x k *" . asdasd-ux-buffer-switch-to-special)
-  ("C-x k f" . asdasd-ux-buffer-switch-to-same-file-type))
+  ("C-x k f" . asdasd-ux-buffer-switch-to-same-file-type)
+  ("C-x k b" . asdasd-ux-buffer-switch-to-babel-sessions))
 
 ;; (global-set-key (kbd "C-x H") 'previous-buffer)
 ;; (global-set-key (kbd "C-x L") 'next-buffer)
@@ -116,9 +110,21 @@
 ;; (use-package persp-mode
 ;;   :config (persp-mode))
 
+(defun consult-read-messages-buffer ()
+  "Use `consult-completing-read` to read lines from the *Messages* buffer."
+  (interactive)
+  (let* ((messages-buffer "*Messages*")
+         (lines (when (get-buffer messages-buffer)
+                  (split-string (with-current-buffer messages-buffer
+                                  (buffer-substring-no-properties (point-min) (point-max)))
+                                "\n" t))))
+    (when lines
+      (let ((selected-line (consult--read lines
+                                          :prompt "Select line: "
+                                          :sort nil)))
+        (when selected-line
+          (message "%s" selected-line))))))
 
 (use-package eyebrowse)
-
-
 
 (provide 'asdasd-ux-buffer)

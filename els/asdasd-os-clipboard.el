@@ -38,11 +38,8 @@
   (message "loaded path from find-file-sync file"))
 
 (use-package emacs
-  :bind* ("M-s s c s" . asdasd-os-clipboard-howm-exchanger-save-last-kill-ring)
-  ("M-s s c l" . asdasd-os-clipboard-howm-exchanger-load)
-  ("M-s s f s" . asdasd-os-clipboard-howm-save-path-for-find-file)
-  ("M-s s f l" . asdasd-os-clipboard-howm-load-path-for-find-file)
-  )
+  :bind ("M-s c s" . asdasd-os-clipboard-howm-exchanger-save-last-kill-ring)
+  ("M-s c l" . asdasd-os-clipboard-howm-exchanger-load))
 
 (use-package clipmon
   :bind* ("M-s c m" . clipmon-autoinsert-toggle)

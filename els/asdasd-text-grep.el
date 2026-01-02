@@ -4,8 +4,9 @@
   :config )
 
 (use-package ripgrep
-  :bind ("C-c r r" . consult-grep)
-  ("C-c r e" . consult-everything)
+  :bind
+  ("C-c r r" . ripgrep-regexp)
   )
 
-(use-package urgrep)
+(use-package grep-context
+  :hook (compilation-mode . grep-context-mode))

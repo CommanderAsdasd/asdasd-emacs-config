@@ -1,8 +1,6 @@
 (use-package ediff
   :custom ediff-window-setup-function 'ediff-setup-windows-plain)
 
-(use-package levenshtein)
-
 (defun get-words-from-buffer (buffer)
   "Extract unique words from BUFFER as a hash table."
   (with-current-buffer buffer

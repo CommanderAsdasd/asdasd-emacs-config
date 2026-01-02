@@ -1,6 +1,7 @@
 (require 'asdasd-ux-config)
 
-(asdasd-ux-config-load '("asdasd-os-encoding.el"
+(asdasd-ux-config-load '("asdasd-littering.el"
+                         "asdasd-os-encoding.el"
                          "asdasd-ux-startup.el"
                          "asdasd-ux-keys.el"
                          "asdasd-ux-keys-homerow.el"
@@ -14,6 +15,7 @@
                          "asdasd-ui-completion-vertico.el"
                          "asdasd-ux-narrow.el"
                          "asdasd-ux.el"
+                         "asdasd-ux-undo.el"
                          "asdasd-ux-text.el"
                          "asdasd-ux-avy.el"
                          "asdasd-ux-window.el"
@@ -25,7 +27,8 @@
                          "asdasd-ux-help.el"
                          "asdasd-ux-eval.el"
                          "asdasd-ui-completion-vertico.el"
-                         "asdasd-ui-tab.el"                        
+                         "asdasd-ui-tab.el"
+                         "asdasd-ui-highlight.el"
                          "asdasd-ux-completion-consult.el"
                          "asdasd-ux-completion-consult-embark.el"
                          "asdasd-shell-mingw-bash.el"
@@ -52,9 +55,11 @@
                          ;; "asdasd-pdf.el"
                          "asdasd-os-server.el"
                          "asdasd-os-clipboard.el"
+                         "asdasd-bookmark.el"
                          "asdasd-ux-mark.el"
+                         "asdasd-ux-llm.el"
                          "asdasd-file-project.el"
                          "asdasd-code-lint.el"
-                         "asdasd-eglot.el"
+                         "asdasd-eglot.el"                         
                          ))
 (provide 'asdasd-init)

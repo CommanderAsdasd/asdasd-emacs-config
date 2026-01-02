@@ -1,4 +1,5 @@
 (require 'asdasd-time)
+(require 'asdasd-ux-advice)
 
 (defcustom asdasd-note-org-node-transclusion-nodes '() "prepared list of transcluded nodes")
 
@@ -10,6 +11,13 @@
   ;; (interactive "P")
   (push page asdasd-note-org-node-transclusion-nodes))
 
+;; (defun asdasd-note-org-node-vertico-alpha-sort-advice (orig-fun &rest args)
+;;   (setq vertico-sort-function 'vertico-sort-alpha)
+;;   (let ((vertico-sort-function 'vertico-sort-alpha))
+;;     (apply orig-fun args)))
+
+(advice-add 'org-node-find :before #'asdasd-ux-advice-vertico-sort-alpha)
+(advice-add 'asdasd-note-org-node-find-today :before #'asdasd-ux-advice-vertico-sort-alpha)
 
 
 (defun asdasd-note-org-node-transclude-pages-temp-buffer ()
@@ -63,13 +71,6 @@
     (org-node--goto node)
     ))
 
-(defun asdasd-note-org-node-vertico-alpha-sort-advice (orig-fun &rest args)
-  (let ((vertico-sort-function 'vertico-sort-alpha))
-    (apply orig-fun args)))
-
-(advice-add 'org-node-find :around #'asdasd-note-org-node-vertico-alpha-sort-advice)
-(advice-add 'asdasd-note-org-node-find-today :around #'asdasd-note-org-node-vertico-alpha-sort-advice)
-
 
 (defun asdasd-note-org-node-find-today ()
   "prefix arg for N days back"
@@ -84,7 +85,7 @@
 (use-package org-node
   
   :custom
-  ;; (org-node-display-sort-fn #'org-node-sort-by-file-mtime)
+  (org-node-display-sort-fn #'org-node-sort-by-file-mtime)
   (org-node-renames-allowed-dirs (list howm-directory))
   (org-roam-node-default-sort 'file-atime)
   (org-node-seq-defs

@@ -66,6 +66,7 @@
   (add-to-list 'meow-mode-state-list '(minibuffer-mode . normal))
   :bind*
   ("C-M-S-j" . asdasd-keys-meow-switch-emacs-mode)
+  
   ;; ("M-J" .  asdasd-keys-meow-switch-insert-mode)
   ("C-S-j" .  asdasd-keys-meow-switch-insert-mode)
   :custom
@@ -162,8 +163,10 @@
    ;; '(":" . )                ;
    ;; '(":" . whole-line-or-region-comment-dwim) ;
    '("<escape>" . ignore)               ;
-   '("/" . isearch-forward-regexp)      ;
-   '("?" . isearch-backward-regexp)     ;
+   ;; '("/" . isearch-forward-regexp)      ;
+   ;; '("?" . isearch-backward-regexp)     ;
+   '("u" . isearch-forward-regexp)      ;u for "uncover"
+   '("U" . isearch-backward-regexp)     ;
    '("|" . self-insert-command)
    '("`" . compare-windows)
    '("~" . asdasd-keys-meow-reset-compare-winwows)

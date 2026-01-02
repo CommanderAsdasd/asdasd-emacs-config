@@ -1,17 +1,17 @@
 (require 'asdasd-code-elisp-function-name)
 
 ;; sync emacses across diff platforms
-(defcustom asdasd-sync-local-config-dir "//Client/C$/Users/AleksandrTankovskii(/emacs-rsync-win-vdi-copy" "backup emacs dir on local pc")
-(defcustom asdasd-sync-vdi-config-dir "/c/Users/C5405944/AppData/Roaming/.emacs.d/" "emacs dir on vdi")
+(defcustom asdasd-sync-local-config-dir "/ctxmnt/C5405944@GLOBAL.CORP.SAP/default/C/Users/AleksandrTankovskii(/.emacs.d/" "backup emacs dir on local pc")
+(defcustom asdasd-sync-vdi-config-dir "~/.emacs.d" "emacs dir on vdi")
 (defcustom asdasd-sync-local-config-dir-ediff "~/.emacs.d.local" "dir of original local machine config")
 
 (defun asdasd-sync-local-to-vdi ()
   (interactive)
-  (async-shell-command (format "rsync -ravz --checksum -av %s %s" asdasd-sync-local-config-dir asdasd-sync-vdi-config-dir) (format "*%s*" (compile-time-function-name)) (format "*%s*" (compile-time-function-name))))
+  (async-shell-command (format "rsync -ravz --checksum -av %s %s" (shell-quote-argument asdasd-sync-local-config-dir) (shell-quote-argument asdasd-sync-vdi-config-dir)) (format "*%s*" (compile-time-function-name)) (format "*%s*" (compile-time-function-name))))
 
 (defun asdasd-sync-vdi-to-local ()
   (interactive)
-  (async-shell-command (format "rsync -ravz --checksum -av %s %s" asdasd-sync-vdi-config-dir asdasd-sync-local-config-dir) (format "*%s*" (compile-time-function-name)) (format "*%s*" (compile-time-function-name))))
+  (async-shell-command (format "rsync -ravz --checksum -av %s %s" (shell-quote-argument (file-truename asdasd-sync-vdi-config-dir)) (shell-quote-argument asdasd-sync-local-config-dir)) (format "*%s*" (compile-time-function-name)) (format "*%s*" (compile-time-function-name))))
 
 (defun asdasd-sync-wsl-emacs-d-push ()
   (interactive)

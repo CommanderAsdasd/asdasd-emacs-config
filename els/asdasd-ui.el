@@ -1,10 +1,14 @@
-
 (use-package warnings
   :config (add-to-list 'display-buffer-alist
                        
                        '("\\*Warning\\*" ;; Adjust the buffer name pattern to match your warning buffer's name
                          (display-buffer-reuse-window display-buffer-in-background)
                          (reusable-frames . 0))))
+
+(use-package emacs
+  :custom
+  (visible-bell nil)
+  (ring-bell-function 'ignore))
 
 
 (setq-default indent-tabs-mode nil)

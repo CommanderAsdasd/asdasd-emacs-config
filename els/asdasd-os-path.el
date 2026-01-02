@@ -1,6 +1,7 @@
 (require 's)
 
-(use-package path-helper)
+(use-package path-helper
+  :config (path-helper-setenv "PATH"))
 
 (defun asdasd-os-path-windize-path (path)
   "turn path to win"
@@ -41,12 +42,6 @@
   ""
   (interactive)
   (kill-new (getenv "PATH"))
-  )
-
-(defun asdasd-os-path-kill-env-var ()
-  ""
-  (interactive)
-  (kill-new (call-interactively 'getenv))
   )
 
 

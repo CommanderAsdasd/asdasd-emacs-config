@@ -1,6 +1,11 @@
-(require 'asdasd-emacs-api)
-(require 'asdasd-os-path)
-(require 'asdasd-ux-media)
+(defun asdasd-embark-print-candidate (candidate)
+  "debug print embark candidate"
+  (message "%s %s" candidate))
+
+(defun asdasd-embark-config-load (candidate)
+  "load file where candidate found"
+  (load-fil)
+  )
 
 (defun asdasd-embark-setq-local (variable)
     "set local value for VARIABLE"(
@@ -47,10 +52,8 @@ Works like `embark-copy-as-kill' but cleans the heading first."
     (kill-new truename)
     (start-process-shell-command "explorer"  nil (format "explorer /select,\"%s\"" (replace-regexp-in-string "/" "\\\\" truename)))))
 
-(defun asdasd-embark-save-full-path (file)
-  "like embark-save-relative-path"
-  (kill-new (file-truename (substitute-in-file-name file)))
-  )
+  
+  
   (defun asdasd-embark-buffer-file-name (buffer-name)
     ""
     (kill-new (buffer-file-name (get-buffer buffer-name))))
@@ -68,7 +71,7 @@ Works like `embark-copy-as-kill' but cleans the heading first."
   ("M-." . embark-act)
   (:map minibuffer-mode-map
         ("M-." . embark-act))
-  ;; ("M-," . embark-dwim)
+  ("C-," . embark-dwim)
   ("C-h B" . embark-bindings)
   (:map embark-org-heading-map
   ("*" . asdasd-embark-org-copy-heading-as-kill))

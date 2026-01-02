@@ -29,7 +29,8 @@
 
 (straight-use-package 'use-package)
 
-(use-package straight)
+(use-package straight
+  :custom (load-prefer-newer t))
 
 
 (provide 'asdasd-package-straight)

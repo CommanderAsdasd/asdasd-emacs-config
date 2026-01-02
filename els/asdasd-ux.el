@@ -20,6 +20,14 @@
 
 (use-package inhibit-mouse)
 
+(defun asdasd-ux-vertico-sort-type-advice (orig-fun &rest args)
+  (setq-local vertico-sort-function 'vertico-sort-history-length-alpha)
+  (let ((vertico-sort-function 'vertico-sort-history-length-alpha))
+    (apply orig-fun args)))
+
+(advice-add 'execute-extended-command :around #'asdasd-ux-vertico-sort-type-advice)
+;; (advice-remove 'execute-extended-command #'asdasd-note-org-node-vertico-alpha-sort-advice)
+
 ;; (use-package non-edit-mode
 ;;   :after (god-mode)
 ;;   ;; :ensure t
@@ -27,7 +35,7 @@
 ;;   (define-key global-map (kbd "C-<tab>") #'non-edit-mode)
 ;;   (add-hook 'prog-mode-hook 'non-edit-mode))
 
-;; (use-package 
+;; (use-package d
   ;; :config )
 
 ;; (use-package etrace

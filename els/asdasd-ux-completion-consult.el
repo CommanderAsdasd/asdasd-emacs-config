@@ -20,17 +20,21 @@
 (use-package consult
   ;; :config ;; (defun asdasd-vertico-consult-hide-comments ()
           ;;    (consult-focus-lines (concat "" )))
-  :custom (consult-preview-key "M-.")
+  :custom
+  (consult-preview-key "C-.")
   (switch-to-buffer-in-dedicated-window t)
   (isearch-pre-move-point t)
   :bind
+  ("C-x C-{" . consult-complex-command)
   ("C-M-S-r" . consult-history)
   ("M-s c o" . consult-outline)
   ("M-s c f" . consult-focus-lines)
   ("M-s c k" . consult-keep-lines)
-   ("C-c r c" . consult-ripgrep)
-   ("C-c r r" . ripgrep-regexp)
-   ("M-s a" . consult-line-multi)
+  ("C-c r c" . consult-ripgrep)
+  ("C-c r r" . ripgrep-regexp)
+  ("M-s a" . consult-line-multi)
+  ("C-c r e" . consult-everything)
+
    ;; ("M-s s" . isearch-forward)
    ;; ("M-s r" . isearch-backward)
    ("C-s" . isearch-forward)
@@ -70,5 +74,10 @@
 
 (use-package consult-dir
   :config )
+
+(defun asdasd-ux-completion-consult-notest-nomock ()
+  "filter go results"
+  (interactive)
+  (consult-focus-lines #[514 "\300\301\302$\207" [consult--completion-filter-dispatch consult-location nil] 7 ("/sapmnt/home/C5405944/.cache/emacs/straight/build-31.0.50/consult/consult.elc" . 143628)] nil))
 
 (provide 'asdasd-ux-completion-consult)

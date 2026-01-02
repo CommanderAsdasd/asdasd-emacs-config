@@ -16,3 +16,11 @@
                                 (abort-minibuffers)))
 (use-package emacs
   :custom (read-minibuffer-restore-windows nil))
+
+;; (use-package mini-frame
+;;   ;; :config (mini-frame-mode)
+;;   :custom (mini-frame-show-parameters
+;;    '((top . 0)
+;;      (width . 1.0)
+;;      (left . 0.5)
+;;      (height . 15))))

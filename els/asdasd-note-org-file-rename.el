@@ -40,7 +40,7 @@ belonging to an alphabet or number system."
                (replace-regexp-in-string "-$" "")))
 
 
-(defun anofr-rename-file ()
+(defun anofr-current ()
     (interactive)
     (let* ((buf (or (buffer-base-buffer) (current-buffer)))
            (path (file-truename (buffer-file-name)))

@@ -17,18 +17,29 @@
   ;; (lsp)
   )
 
+(defun asdasd-note-org-babel-dummy-demarcate ()
+  (interactive)
+  (previous-line)
+  (move-end-of-line nil)
+  (insert (format "
+#+end_src
+#+begin_src %s" (org-element-property :language (org-element-at-point)))))
+
 (use-package org
   :straight (:type built-in)
+  :bind* (:map org-mode-map ("C-c C-v C-r" . org-babel-remove-result))
   :custom
   (org-babel-default-header-args
-      '((:session . "none")
-        (:results . "drawer replace")
-        (:comments . "link")  ;; add a link to the original source
-        (:exports . "both")
-        (:cache . "no")
-        (:eval . "never-export") ;; explicitly evaluate blocks instead of evaluating them during export
-        (:hlines . "no")
-        (:tangle . "no")))
+   `((:session . ,(if (eq major-mode 'emacs-lisp-mode) nil (format "* session %s %s " (org-element-property :language (org-element-at-point)) (file-name-nondirectory buffer-file-name))))
+     (:async)
+     
+     (:results . "drawer replace")
+     (:comments . "link")  ;; add a link to the original source
+     (:exports . "both")
+     (:cache . "no")
+     (:eval . "never-export") ;; explicitly evaluate blocks instead of evaluating them during export
+     (:hlines . "no")
+     (:tangle . "no")))
   ;; Set default header args for bash blocks
   (org-babel-default-header-args:bash
    '((:async)
@@ -52,17 +63,22 @@
              )
            )
   (add-to-list 'org-src-lang-modes '("dockerfile" . dockerfile))
-  (mapc (lambda (x) (add-to-list 'org-structure-template-alist x)) (list '("sp" . "src python")
+  (mapc (lambda (x) (add-to-list 'org-structure-template-alist x)) (list '("spy" . "src python")
                                                                          '("sg" . "src go")
                                                                          '("se" . "src elisp")
-                                                                         '("ssh" . "src sh")
-                                                                         '("ssr" . "src")
-                                                                         '("sb" . "src bash"))))
+                                                                         '("ss" . "src")
+                                                                         '("sh" . "src sh")
+                                                                         '("sb" . "src bash")
+                                                                         '("spr" . "src prog")
+                                                                         '("sd" . "src diff"))))
+
 
 (use-package org-tanglesync
-  :hook ((org-mode . org-tanglesync-mode)
-         ;; enable watch-mode globally:
-         ((prog-mode text-mode) . org-tanglesync-watch-mode))
+  ;; :hook (
+  ;;        ;; (org-mode . org-tanglesync-mode)
+  ;;        ;; enable watch-mode globally:
+  ;;        ;; ((prog-mode text-mode) . org-tanglesync-watch-mode)
+  ;;        )
   :config
   (defun asdasd-note-org-babel-detaglesync ()
     "auto add current buffer to watch and org-tanglesync-process-buffer-automatic"
@@ -78,3 +94,5 @@
 (use-package ob-mermaid)
 
 (use-package ob-go)
+
+(provide 'asdasd-note-org-babel)

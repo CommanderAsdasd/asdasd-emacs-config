@@ -6,8 +6,8 @@
     (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
   :config
   (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
-  (setq org-id-track-globally t)
-  (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
+
+  ;; (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
   (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
   (push '("b" "Brain" plain (function org-brain-goto-end)
           "* %i%?" :empty-lines 1)

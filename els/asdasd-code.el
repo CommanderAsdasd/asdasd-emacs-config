@@ -1,5 +1,6 @@
 (use-package xref
-  :straight (:type built-in))
+  :straight (:type built-in)
+  :bind ("C-," . xref-find-definitions))
 
 (use-package indent
   :bind*
