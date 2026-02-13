@@ -132,11 +132,9 @@
         ("C-c C-c" . org-ctrl-c-ctrl-c)
         ("C-c c" . org-node-add-tags-here))))
 
-
-
-
 (use-package org-node-fakeroam
   :config )
+
 
 
 

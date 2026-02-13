@@ -9,9 +9,23 @@
 ;;   (let* ((timestamp (parse-time-string (file-name-base (buffer-file-name))))
 ;;          (yesterday (time-subtract timestamp 86400)))))
 
+(defun asdasd-note-howm--list-note-files-in-dir (dir)
+  "returns list of files in DIR with find"
+  (let ((default-directory dir))
+    (split-string (shell-command-to-string "find ./ -type f  \\( -name '*.org' -o -name '*.md' \\)  -printf \"%p\n\"") "\n" t)))
+
 (defun asdasd-note-howm--recursive-files-prompt ()
   (completing-read "howm note: "
                    (directory-files-recursively howm-directory "\.org\\|\.md")
+                   nil
+                   nil
+                   (format "%s" (if (and (sexp-at-point) current-prefix-arg) (sexp-at-point) ""))))
+
+(defun asdasd-note-howm--recursive-files-prompt-quick ()
+  "find util workaround for slow fs"
+  (completing-read "howm note: "
+                   ;; (directory-files-recursively howm-directory "\.org\\|\.md")
+                   (asdasd-note-howm--list-note-files-in-dir default-directory)
                    nil
                    nil
                    (format "%s" (if (and (sexp-at-point) current-prefix-arg) (sexp-at-point) ""))))
@@ -31,13 +45,30 @@
 ")))
 
 (defun asdasd-note-howm--recursive-files-prompt-day (day)
+  "pre-fills howm-directory recursive prompt with ARG is num of DAY before today"
   (completing-read "howm note: " (directory-files-recursively howm-directory "\.org\\|\.md") nil nil (asdasd-time-get-date day)))
+
+(defun asdasd-note-howm--recursive-files-prompt-day-quick (day &optional time-string)
+  "reduces directory-files-recursively to the month of chosen day"
+  (let ((time-string (if time-string time-string "%Y-%m-%d")))
+    (completing-read "howm note: "
+                   (asdasd-note-howm--list-note-files-in-dir (expand-file-name (asdasd-time-get-date day "%Y/%m") howm-directory))
+                   ;; (directory-files-recursively (expand-file-name (asdasd-time-get-date day "%Y/%m") howm-directory) "\.org\\|\.md")
+                   nil nil (format "%s " (asdasd-time-get-date day time-string)))))
 
 (defun asdasd-note-howm-find-file-today ()
   "prefix arg for N days back"
   (interactive)
   (let ((vertico-sort-function 'vertico-sort-alpha))
     (find-file (asdasd-note-howm--recursive-files-prompt-day current-prefix-arg))))
+
+(defun asdasd-note-howm-find-file-this-month ()
+  "prefix arg for N days back"
+  (interactive)
+  (let* ((vertico-sort-function 'vertico-sort-alpha)
+        (day current-prefix-arg)
+        (default-directory (expand-file-name (asdasd-time-get-date day "%Y/%m") howm-directory)))
+    (find-file (asdasd-note-howm--recursive-files-prompt-day-quick day "%Y-%m"))))
 
 (defun asdasd-note-howm-find-file-id ()
   "find any file under howm-directory"
@@ -60,6 +91,18 @@
                                           (if (string= (getenv "HOST") "AZRWEU041027")
                                               (string-replace "/ctxmnt/C5405944@GLOBAL.CORP.SAP/default/C/Users/AleksandrTankovskii(/" "~/" buffer-file-name)
                                               (string-replace (getenv "HOME") "~/" buffer-file-name)))))
+
+(defun asdasd-note-howm-consult-grep-src-blocks ()
+  "grep els dir"
+  (interactive)
+  (let ((consult-ripgrep-args (concat consult-ripgrep-args " -B 1")))
+    (consult-ripgrep howm-directory "#+begin_src ")))
+
+(defun asdasd-note-howm-ripgrep-src-blocks ()
+  "grep els dir"
+  (interactive)
+  (let ((ripgrep-arguments '("--multiline" "--pcre2")))
+    (ripgrep-regexp "(?s)^#\\+name:.*\n#\\+begin_src python" default-directory "*.org")))
 
 (defun asdasd-note-howm-grep-buffer-file-links ()
   "grep els dir"
@@ -153,8 +196,8 @@
             (string-replace "~" "/mnt/c/Users/AleksandrTankovskii(/AppData/Roaming" howm-directory)) ;
   ;; (howm-view-title-regexp-grep "^* +")
     )
-  (advice-add 'asdasd-note-howm-find-file-today :before #'asdasd-ux-advice-vertico-sort-alpha)
-  )
+  (advice-add 'asdasd-note-howm-find-file-today :before #'asdasd-ux-advice-vertico-sort-alpha))
+
 
 
 

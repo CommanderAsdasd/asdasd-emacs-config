@@ -69,6 +69,8 @@
   
   ;; ("M-J" .  asdasd-keys-meow-switch-insert-mode)
   ("C-S-j" .  asdasd-keys-meow-switch-insert-mode)
+  ("S-SPC" .  asdasd-keys-meow-switch-insert-mode)
+  ("C-S-SPC" .  asdasd-keys-meow-switch-emacs-mode)
   :custom
   (meow-use-clipboard t)
   ;; (meow--kbd-delete-char "C-S-l")

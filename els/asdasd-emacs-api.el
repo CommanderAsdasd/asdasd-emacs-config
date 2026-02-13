@@ -11,4 +11,4 @@
   (let ((keybinding (read-key-sequence "Press keys: ")))
     (insert (kbd keybinding))))
 
-
+(provide 'asdasd-emacs-api)
