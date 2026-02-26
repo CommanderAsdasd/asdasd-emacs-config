@@ -24,7 +24,7 @@
 (use-package org
   ;; :straight nil
   :straight (:type built-in)
-  :preface (defun asdasd-note-org-insert-subheading-after ()
+  :config (defun asdasd-note-org-insert-subheading-after ()
              "skips metadata and org-insert-subheading"
              (interactive)
              (org-end-of-meta-data)
@@ -40,6 +40,8 @@
     "occur only src blocks"
     (interactive)
     (org-occur "src"))
+  (add-hook 'org-insert-heading-hook 'org-node-ensure-crtime-property)
+  (add-hook 'org-insert-heading-hook 'org-hide-drawers-make-overlays)
   
   :custom
   (org-src-block-faces '(("python" (:background "yellow"))
@@ -58,7 +60,7 @@
                             (tags-todo "CATEGORY=\"org\"")
                             (tags-todo "BWAT-DFNG")))))
                        (org-tags-column -80)
-                       (org-agenda-prefix-format "(%i %T) %-15c %t")
+                       ;; (org-agenda-prefix-format "(%i %T) %-15c %t")
                        (org-keep-stored-link-after-insertion t)
                        (org-id-link-to-org-use-id t)
                        (org-startup-truncated nil)
@@ -236,5 +238,8 @@
 (use-package org-remark
   )
 
+(use-package org-hide-drawers)
 
+
+(provide 'asdasd-note-org)
 
