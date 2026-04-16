@@ -2,6 +2,9 @@
 (require 'asdasd-os-path)
 (require 'asdasd-ux-media)
 
+
+;; (defun asdasd-embark-)
+
 (defun asdasd-embark-setq-local (variable)
   "set local value for VARIABLE"(
                                  (make-variable-buffer-local (intern variable)))
@@ -12,11 +15,8 @@
 (defun asdasd-embark-org-node-read-tags (node)
   "read from list of tags")
 
-(defun asdasd-embark-add-to-path (path)
-  "add PATH to env var PATH"
-  (asdasd-os-path-add-to-path path))
 
-(defun asdasd-embark-edebug-intrument-function (function)
+(defun asdasd-embark-edebug-instrument-function (function)
   ""
   (edebug-instrument-function (intern (substring-no-properties function)))
   )
@@ -59,9 +59,17 @@ Works like `embark-copy-as-kill' but cleans the heading first."
 
 (defun asdasd-embark-os-file-manager-here (file)
   "executes windows file manager command for FILE"
-  (let ((truename (file-truename file)))
-    (kill-new truename)
-    (start-process-shell-command "explorer"  nil (format "explorer /select,\"%s\"" (replace-regexp-in-string "/" "\\\\" truename)))))
+  (let* ((truename (file-truename file))
+         (path (string-replace " " "^ " (replace-regexp-in-string "/" "\\\\" truename)))
+         ;; (command (concat (format "set P=\"%s\"" path) "^
+;; "
+         ;;                           "explorer.exe /select,\"%P%\""))
+         (command (format "explorer.exe /select,%s\"" path) )
+         (shell-file-name "cmd.exe")
+        (shell-command-switch "/c"))
+    (kill-new command)
+    (start-process-shell-command "explorer" "explorer" command)
+    ))
 
 (defun asdasd-embark-save-full-path (file)
   "like embark-save-relative-path"
@@ -86,14 +94,14 @@ Works like `embark-copy-as-kill' but cleans the heading first."
         ("W" . asdasd-embark-save-full-path)
         ("Q" . asdasd-embark-os-file-manager-here)
         (";" . asdasd-embark-ffmepg-convert-to-mp3)
-        ("p" . asdasd-embark-add-to-path)
-        ("p" . asdasd-ux-media-embark-add-to-vlc-playlist)
-        ("\"" . asdasd-ux-media-embark-ffmpeg-convert-to-format))
+        
+        ;; ("p" . asdasd-ux-media-embark-add-to-vlc-playlist)
+        ("\"" . asdasd-ux-media-embark-ffmpeg-convert))
   (:map embark-region-map
         ("z" . asdasd-embark-everything)
         ("Q" . asdasd-embark-os-file-manager-here)
         ("p" . asdasd-ux-media-embark-add-to-vlc-playlist)
-        ("\"" . asdasd-ux-media-embark-ffmpeg-convert-to-format)
+        ("\"" . asdasd-ux-media-embark-ffmpeg-convert)
         ("p" . system-packages-install)
         ("P" . system-packages-uninstall))
   (:map embark-buffer-map
@@ -109,11 +117,15 @@ Works like `embark-copy-as-kill' but cleans the heading first."
         ("i" . embark-insert)
         ("I" . package-install))
   (:map embark-general-map
-        ("t" . asdasd-embark-org-node-add-tag))
+        ("t" . asdasd-embark-org-node-add-tag)
+        ("T" . asdasd-note-org-node-embark-add-to-transclusion)
+        ("n i" . asdasd-note-org-node-embark-insert))
   (:map embark-function-map
-        ("D" . asdasd-embark-edebug-intrument-function)
+        ("D" . asdasd-embark-edebug-instrument-function)
         ("Q" . asdasd-embark-edebug-eval-expression))
-  )
+  (:map embark-org-heading-map
+        ("*" . asdasd-embark-org-copy-heading-as-kill)))
+
 
 
 
