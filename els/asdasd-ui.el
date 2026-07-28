@@ -32,5 +32,8 @@
   :hook
   (compilation-filter . ansi-color-compilation-filter))
 
+(use-package center-layout
+  :straight (:host github :repo "laech/emacs-center-layout"))
+
 ;; (use-package shaoline
 ;;   :straight (:host github :repo "11111000000/shaoline"))

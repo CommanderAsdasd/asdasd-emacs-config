@@ -28,8 +28,29 @@
 
 (defun asdasd-async-shell-command-advice (args)
   "Add date and command to output buffer name"
-  (setf (nth 1 args) (concat (format-time-string "[%Y-%m-%d %H:%M:%S] ") (or (nth 1 args) shell-command-buffer-name-async) " $ " (nth 0 args)))
+  (let ((output-buffer (concat (format-time-string "[%Y-%m-%d %H:%M:%S] ")
+                             (or (nth 1 args) shell-command-buffer-name-async)
+                             " $ "
+                             (nth 0 args)))
+        (error-buffer))
+    (if (nth 1 args)
+        (setf (nth 1 args) output-buffer)
+      (setf args (list (car args)
+                       output-buffer
+                       output-buffer)
+            
+               ;
+        )))
+  
+    
+  
+  
   args)
+
+  
+
+
+
 
 (advice-add 'async-shell-command :filter-args #'asdasd-async-shell-command-advice)
 
@@ -41,7 +62,9 @@
     (asdasd-async-shell-command command "*Shell rerun %s")))
 
 (use-package shell
-  :bind ("C-!" . async-shell-command)("M-&" . shell-command)
+  :bind
+  ("C-!" . async-shell-command)
+  ("M-&" . shell-command)
   :custom
   (explicit-bash-args '("--login" "-i"))
    (shell-file-name "bash")

@@ -13,11 +13,13 @@
   )
 
 
-(use-package org-agenda-files-track
-  :init (defun my/org-agenda-files-track-init ()
-          "(Re)initialize dynamic agenda files.
-
-This can take a long time, so it is recommended to run this only
+
+
+(use-package org-agenda-files-track
+  :init (defun my/org-agenda-files-track-init ()
+          "(Re)initialize dynamic agenda files.
+
+This can take a long time, so it is recommended to run this only
 on installation and when first tasks are added to many files via
 methods the save hook cannot detect, like file synchronization."
           (interactive)

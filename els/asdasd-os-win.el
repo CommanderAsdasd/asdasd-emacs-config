@@ -7,6 +7,7 @@
 
 
 (use-package emacs
-  :custom )
+  ;; :custom
+  )
 
 (provide 'asdasd-os-win)

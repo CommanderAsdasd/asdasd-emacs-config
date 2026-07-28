@@ -1,6 +1,10 @@
+;;; -*- lexical-binding: t; -*-
+;; (require 'howm-org)
+
 (require 'asdasd-os-win)
 (require 'asdasd-time)
 (require 'asdasd-ux-advice)
+(require 'asdasd-note-denote)
 
 ;; something like this is already in the 
 ;; (defun asdasd-note-howm-find-previous-day ()
@@ -8,6 +12,19 @@
 ;;   (interactive)
 ;;   (let* ((timestamp (parse-time-string (file-name-base (buffer-file-name))))
 ;;          (yesterday (time-subtract timestamp 86400)))))
+
+(defun asdasd-note-howm-find-by-timestamp ()
+  ""
+  (search-forward "[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]" end t))
+
+(defun asdasd-note-howm-extract-heading-to-file ()
+  "create fresh file from howm memo note at point"
+  (interactive)
+  (org-mark-subtree)
+  (let ((str (buffer-substring-no-properties (region-beginning) (region-end))))
+    (delete-region (region-beginning) (region-end))
+    (find-file (asdasd-time-get-date nil (concat "%Y-%m-%d-%H-%M" ".org")))
+    (insert str)))
 
 (defun asdasd-note-howm--list-note-files-in-dir (dir)
   "returns list of files in DIR with find"
@@ -21,6 +38,12 @@
                    nil
                    (format "%s" (if (and (sexp-at-point) current-prefix-arg) (sexp-at-point) ""))))
 
+(defun asdasd-vertico-sort-alpha-desc (cands)
+    ;; `copy-sequence` keeps Vertico’s internal list untouched
+  (nreverse (copy-sequence cands)))
+
+(advice-add 'vertico-sort-alpha :filter-return #'asdasd-vertico-sort-alpha-desc)
+
 (defun asdasd-note-howm--recursive-files-prompt-quick ()
   "find util workaround for slow fs"
   (completing-read "howm note: "
@@ -33,20 +56,21 @@
 (defun asdasd-note-howm-find-file ()
   "find any file under howm-directory"
   (interactive)
-  (let ((vertico-sort-function 'vertico-sort-alpha))
+  (let ((vertico-sort-override-function 'vertico-sort-alpha))
     (find-file (asdasd-note-howm--recursive-files-prompt))))
 
 (defun asdasd-note-howm-insert-link-on-file ()
   "find any file under howm-directory"
   (interactive)
-  (let ((vertico-sort-function 'vertico-sort-alpha))
+  (let ((vertico-sort-override-function 'vertico-sort-alpha))
     (insert (org-link-make-string (concat "file:"
                                           (if current-prefix-arg (asdasd-note-howm--recursive-files-prompt-day current-prefix-arg) (asdasd-note-howm--recursive-files-prompt)))) "
 ")))
 
 (defun asdasd-note-howm--recursive-files-prompt-day (day)
-  "pre-fills howm-directory recursive prompt with ARG is num of DAY before today"
-  (completing-read "howm note: " (directory-files-recursively howm-directory "\.org\\|\.md") nil nil (asdasd-time-get-date day)))
+  (completing-read "howm note: " (directory-files-recursively howm-directory "\.org\\|\.md") nil nil (format "\\(%s\\|%s\\)+"
+                                                                                                             (asdasd-time-get-date day)
+                                                                                                             (asdasd-time-get-date day (car (s-split "T" denote-date-identifier-format))))))
 
 (defun asdasd-note-howm--recursive-files-prompt-day-quick (day &optional time-string)
   "reduces directory-files-recursively to the month of chosen day"
@@ -59,7 +83,7 @@
 (defun asdasd-note-howm-find-file-today ()
   "prefix arg for N days back"
   (interactive)
-  (let ((vertico-sort-function 'vertico-sort-alpha))
+  (let ((vertico-sort-override-function 'vertico-sort-alpha))
     (find-file (asdasd-note-howm--recursive-files-prompt-day current-prefix-arg))))
 
 (defun asdasd-note-howm-find-file-this-month ()
@@ -79,7 +103,7 @@
   (interactive)
     (howm-keyword-add (list (buffer-substring-no-properties (region-beginning) (region-end)))))
 
-(defun asdasd-note-howm-grep ()
+(defun asdasd-note-howm-consult-ripgrep ()
   "grep els dir"
   (interactive)
   (consult-ripgrep (if current-prefix-arg (read-directory-name "howm search in: ") howm-directory) ))
@@ -91,6 +115,10 @@
                                           (if (string= (getenv "HOST") "AZRWEU041027")
                                               (string-replace "/ctxmnt/C5405944@GLOBAL.CORP.SAP/default/C/Users/AleksandrTankovskii(/" "~/" buffer-file-name)
                                               (string-replace (getenv "HOME") "~/" buffer-file-name)))))
+(defun asdasd-note-howm-ripgrep-regexp (regexp-search)
+  "grep els dir"
+  (interactive "Mripgrep howm-directory: ")
+  (ripgrep-regexp regexp-search howm-directory))
 
 (defun asdasd-note-howm-consult-grep-src-blocks ()
   "grep els dir"
@@ -132,13 +160,10 @@
   ("C-c ; f" . asdasd-note-howm-prefix-map)
   ("C-c ; f f" . asdasd-note-howm-find-file)
   ("C-c ; f t" . asdasd-note-howm-find-file-today)
-  ("C-c ; f i" . asdasd-note-howm-insert-link-on-file)
-  ;; ( . asdasd-note-howm-find-file-id)
-  ("C-c ; r" . asdasd-note-howm-grep)
-  ("C-c ; R" . asdasd-note-howm-grep-links-to-current-file)
+  ("C-c ; f l" . asdasd-note-howm-insert-link-on-file)
   ("C-c ; k a" . howm-keyword-add)
-
-
+  ("C-c ; r" . asdasd-note-howm-consult-ripgrep)
+  ("C-c ; R" . asdasd-note-howm-ripgrep-regexp)
   ;; :bind ("C-c ; ;" . howm-menu)
   
   :custom
@@ -162,7 +187,8 @@
   ;; [2025-06-09]+ integraion with org-date format
   ;; (howm-template-date-format "<%Y-%m-%d %a %H:%M>")
   
-  ;; (howm-template-date-format "[%Y-%m-%d %a %H:%M]")
+  (howm-template-date-format "[%Y-%m-%d %H:%M:%S]")
+  
   ;; `(howm-view-title-regexp ,(format "^%s\\( +\\(.*\\)\\|\\)$" howm-view-title-header))
   ;; (howm-keyword-format ":%s:")
   ;; (howm-keyword-header "<<<")

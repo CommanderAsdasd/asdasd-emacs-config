@@ -3,19 +3,21 @@
   :bind ("C-," . xref-find-definitions))
 
 (use-package indent
+  :straight (:type built-in)
   :bind*
   (:map indent-rigidly-map
-        ("C-S-M-k" indent-rigidly-left-to-tab-stop)))
+        ("C-S-M-k" . indent-rigidly-left-to-tab-stop)))
 
 (use-package outline
+  ;; :bind (:map outline-mode-map ("\\" . outline-indent-toggle-fold))
   :config (add-hook 'prog-mode 'outline-minor-mode))
 
 
 (use-package nocomments-mode)
 (use-package outline-indent
   :config   (add-hook 'yaml-mode-hook #'outline-indent-minor-mode)
-  (add-hook 'yaml-ts-mode-hook #'outline-indent-minor-mode)
-)
+  (add-hook 'yaml-ts-mode-hook #'outline-indent-minor-mode))
+
 
 (use-package polymode
   :config
@@ -28,13 +30,15 @@
     :tail-mode 'host)
   (define-polymode poly-howmc-org-mode
     :hostmode 'poly-howmc-org-hostmode
-    :innermodes '(poly-howmc-org-innermode))
-  )
+    :innermodes '(poly-howmc-org-innermode)))
+
 
 (use-package mmm-mode
   :config )
 
 (use-package refactor
   )
+
+
 
 (provide 'asdasd-code)

@@ -1,79 +1,49 @@
 (require 'pp)
 
+(defun asdasd-ux-config-required-p (sym)
+  (when (featurep sym) t))
+
 (defun asdasd-ux-config-get-modules-with-submodules ()
   "second part of file name in ELS dir"
   (interactive)
   (let* ((modules-file-name-parts (mapcar (lambda (module-file-name) (split-string (file-name-base module-file-name) "-"))
-
                                           (directory-files els))
-
                                   )
-
          (top-modules (list '()))
-
          (add-to-top-modules (lambda (key value)
-
                                "Add VALUE to the list associated with KEY in TOP-MODULES."
-
                                (let ((entry (assoc key top-modules)))
-
                                  (if entry
-
                                      ;; If the entry exists, append the value to the existing list
-
                                      (unless (member value (cdr entry)) ; Avoid duplicates
-
                                        (setcdr entry (cons value (cdr entry))))
-
                                    ;; If the entry does not exist, create a new one
-
                                    (push (cons key (list value)) top-modules))))))
 
-
-
     (mapcar (lambda (module-file-name-part) (if (> (length module-file-name-part) 1) (funcall add-to-top-modules (nth 1 module-file-name-part) (nth 2 module-file-name-part)) )) modules-file-name-parts)
-
     top-modules))
 
 (defun asdasd-ux-config-get-modules ()
-
   "second part of file name in ELS dir"
-
   (interactive)
-
-  (let ((modules-file-name-parts (mapcar (lambda (module-file-name) (split-string (file-name-base module-file-name) "-")) (directory-files els))
-
-                                 ))
-
+  (let ((modules-file-name-parts (mapcar (lambda (module-file-name) (split-string (file-name-base module-file-name) "-")) (directory-files els))))
     (pp (-uniq (mapcar (lambda (module-file-name-part) (if (> (length module-file-name-part) 1) (nth 1 module-file-name-part) )) modules-file-name-parts)))))
-
-
-
 
 (defun asdasd-ux-config-rename ()
   "rename file in els dir"
   (interactive)
   (let* ((default-directory els)) (call-interactively 'rename-file)))
 
-
 (defun asdasd-ux-config-find ()
   "loads file from els dir"
   (interactive)
   (let ((default-directory els)) (call-interactively 'find-file)))
-
-
 
 (defun asdasd-ux-config-grep ()
   "grep els dir"
   (interactive)
   (consult-ripgrep els))
 
-;; (use--map asdasd-ux-config-keymap-prefix)
-
-
-;; (defmacro toggle (var)
-
-;;   `(setq ,var (not var)))
 
 (defun asdasd-ux-config-load (&optional files)
   "loads file from els dir

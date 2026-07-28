@@ -1,3 +1,4 @@
+
 (asdasd-ux-config-load '("asdasd-ux-keys-homerow.el" "asdasd-ui-cursor.el"))
 
 (defun asdasd-keys-meow-reset-compare-winwows ()
@@ -24,9 +25,16 @@
 
 (add-hook 'god-local-mode-hook 'asdasd-keys-meow-swtich-global-mode)
 
+(defun asdasd-keys-meow-cursor-color-mode-check (&optional buffer1 buffer2)
+  (cond
+   ((eq meow-insert-mode t) (set-cursor-color  "red"))
+   ((eq (or meow-normal-mode meow-motion-mode) t) (set-cursor-color "green"))
+   ((eq (and (meow-normal-mode-p) (meow-insert-mode-p)) nil) (set-cursor-color "blue"))))
+
+
 (defun asdasd-keys-meow-global-mode-off ()
   (meow-global-mode 0)
-  (asdasd-keys-meow-cursor-mode-check))
+  (asdasd-keys-meow-cursor-color-mode-check))
 
 (defun asdasd-keys-meow-swtich-global-mode ()
   (meow-global-mode (if meow-global-mode 0 1)))
@@ -34,18 +42,10 @@
 (defun asdasd-keys-meow-switch-emacs-mode ()
   (interactive)
   (asdasd-keys-meow-swtich-global-mode)
-  (asdasd-keys-meow-cursor-mode-check)
+  (asdasd-keys-meow-cursor-color-mode-check)
   (message "%s: %s" (symbol-name 'meow-global-mode) meow-global-mode))
 
-(defun asdasd-keys-meow-cursor-mode-check (&optional buffer1 buffer2)
-  (cond
-   ((eq meow-insert-mode t) (set-cursor-color  "red"))
-   ((eq (or meow-normal-mode meow-motion-mode) t) (set-cursor-color "green"))
-   ((eq (and (meow-normal-mode-p) (meow-insert-mode-p)) nil) (set-cursor-color "blue")))
-  ;; (if
-  ;;   (if (and (eq meow-normal-mode nil)  (eq meow-insert-mode nil))
-  ;;     ))
-  )
+
 
 
 
@@ -53,13 +53,21 @@
 (require 'emacs)
 
 (defun asdasd-keys-meow-switch-insert-mode ()
-  ""
+  "toggle insert mode, keep region"
   (interactive)
-  (if (meow-insert-mode-p) (meow-insert-exit) (meow-insert))
-  )
+  (let ((active (region-active-p))
+        (mark (mark))
+        (pt (point)))
+    (if (meow-insert-mode-p) (meow-insert-exit) (meow-insert))
+    (when active
+      (set-mark mark)
+      (goto-char pt)
+      (activate-mark))))
+
 
 
 (use-package meow
+  :after (switch-buffer-functions)
   ;; :straight (:host github :repo "meow-edit/meow")
   :demand t
   :init (setq meow--kbd-delete-char "C-S-l")
@@ -69,7 +77,7 @@
   
   ;; ("M-J" .  asdasd-keys-meow-switch-insert-mode)
   ("C-S-j" .  asdasd-keys-meow-switch-insert-mode)
-  ("S-SPC" .  asdasd-keys-meow-switch-insert-mode)
+  ;; ("S-SPC" .  asdasd-keys-meow-switch-insert-mode)
   ("C-S-SPC" .  asdasd-keys-meow-switch-emacs-mode)
   :custom
   (meow-use-clipboard t)
@@ -79,7 +87,8 @@
 
   :config
   (meow-global-mode 1)
-  (add-hook 'meow-switch-state-hook 'asdasd-keys-meow-cursor-mode-check)
+  (add-hook 'meow-switch-state-hook 'asdasd-keys-meow-cursor-color-mode-check)
+  (add-hook 'switch-buffer-functions 'asdasd-keys-meow-cursor-color-mode-check)
   (meow-leader-define-key
    ;; SPC j/k will run the original command in MOTION state.
    '("j" . "H-j")
@@ -125,7 +134,7 @@
    '("e" . meow-next-word)
    '("e" . meow-next-symbol)
    '("f" . meow-find)
-   '("g" . meow-block)
+   '("g" . execute-extended-command)
    '("j" . highlight-symbol-at-point)
    '("J" . unhighlight-regexp)
    '("i" . avy-goto-char-timer)
@@ -203,7 +212,7 @@
    '("e" . meow-next-word)
    '("e" . meow-next-symbol)
    '("f" . meow-find)
-   '("g" . meow-block)
+   '("g" . execute-extended-command)
    '("j" . highlight-symbol-at-point)
    '("J" . unhighlight-regexp)
    '("i" . avy-goto-char-timer)
@@ -256,6 +265,22 @@
    )
   ;; (defvar asdasd-keys-meow-python-e-map (make-sparse-keymap))
   ;; (defvar my-e-prefix (let ((map (make-sparse-keymap))) map))
+
+  (defvar my-e-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "e") #'eval-last-sexp)
+      (define-key map (kbd "b") #'eval-buffer)
+      (define-key map (kbd "e") #'python-shell-send-region)
+      map))
+
+  (defun my-e-prefix ()
+    (interactive)
+    (set-transient-map my-e-map t)
+    (which-key--show-keymap "e" my-e-map))
+
+  (meow-normal-define-key
+   '("e" . my-e-prefix))
+
   
   (add-hook 'python-mode-hook '(lambda ()
                                    (defvar my-e-prefix (let ((map (make-sparse-keymap))) map))

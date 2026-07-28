@@ -16,8 +16,12 @@
 ;;   (let ((vertico-sort-function 'vertico-sort-alpha))
 ;;     (apply orig-fun args)))
 
-(advice-add 'org-node-find :before #'asdasd-ux-advice-vertico-sort-alpha)
+;; (advice-add 'org-node-find :before #'asdasd-ux-advice-vertico-sort-alpha)
+;; (advice-add 'org-node-find :after #'asdasd-ux-advice-vertico-sort-alpha-post)
+(advice-add 'org-node-find :around #'asdasd-ux-advice-vertico-sort-alpha-around)
+
 (advice-add 'asdasd-note-org-node-find-today :before #'asdasd-ux-advice-vertico-sort-alpha)
+(advice-add 'asdasd-note-org-node-find-today :after #'asdasd-ux-advice-vertico-sort-alpha-post)
 
 
 (defun asdasd-note-org-node-transclude-pages-temp-buffer ()
@@ -132,11 +136,7 @@
         ("C-c C-c" . org-ctrl-c-ctrl-c)
         ("C-c c" . org-node-add-tags-here))))
 
-(use-package org-node-fakeroam
-  :config )
-
-
-
-
+;; (use-package org-node-fakeroam
+;;   :config )
 
 (provide 'asdasd-note-org-node)

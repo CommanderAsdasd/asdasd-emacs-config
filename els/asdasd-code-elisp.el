@@ -2,9 +2,6 @@
   :bind ("C-c e R" . erefactor-rename-symbol-in-buffer)
   )
 
-(use-package erefactor
-  :custom ())
-
 ;; (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
 (use-package elisp-def
   :bind ("C-c d" . elisp-def))
@@ -39,10 +36,11 @@
       name-functions))
   :custom (parens-require-spaces nil)
   (disabled-command-function nil)
-  :bind
+  :bind*
   ("C-c e r" . 'raise-sexp)
   ("C-c e b" . elisp-eval-region-or-buffer)
-  ("C-c e d" . delete-selection-mode)
+  ("C-c e s" . delete-selection-mode)
+  ("C-c e d e" . toggle-debug-on-error)
   ("C-c e i" . indent-pp-sexp)
   ("C-c e p" . electric-pair-mode)
   ("C-x C-g" . eval-defun)
@@ -50,6 +48,12 @@
 
 
 (use-package lispy
+  :bind (:map lispy-mode-map-special
+              ("k" . special-lispy-left)
+              ("'" . special-lispy-right)
+              ("o" . special-lispy-down)
+              ("p" . special-lispy-up)
+              ("l" . special-lispy-flow))
   :config )
 
 (use-package inspector
@@ -60,5 +64,12 @@
 
 (use-package el-search
   :config )
+
+(use-package edit-list
+  :config )
+
+(use-package ert)
+
+(use-package emr)
 
 (provide 'asdasd-code-elisp)

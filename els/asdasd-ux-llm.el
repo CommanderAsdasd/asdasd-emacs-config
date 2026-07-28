@@ -1,24 +1,30 @@
+(use-package acp
+  :straight (:host github :repo "xenodium/acp.el"))
+
 (use-package agent-shell
+  :after acp
   :straight (:host github :repo "xenodium/agent-shell"))
 
+
+
 (use-package gptel
-  :preface (gptel-make-gh-copilot "Copilot")
+  ;; :preface (gptel-make-gh-copilot "Copilot")
   :config
   ;; OpenRouter offers an OpenAI compatible API
-  (setq gptel-model  'arcee-ai/trinity-large-preview:free
+  (setq gptel-model  'tencent/hy3-preview:free
         gptel-backend
         (gptel-make-openai "OpenRouter" ;Any name you want
                            :host "openrouter.ai"
                            :endpoint "/api/v1/chat/completions"
-                           :key "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"
-                           :models '(openai/gpt-3.5-turbo
-                                     arcee-ai/trinity-large-preview:free
+                           :key (shell-command-to-string "pass emacs/openrouter")
+                           :models '(tencent/hy3-preview:free
+                                     openai/gpt-3.5-turbo
                                      mistralai/mixtral-8x7b-instruct
                                      meta-llama/codellama-34b-instruct
                                      codellama/codellama-70b-instruct
                                      google/palm-2-codechat-bison-32k
                                      google/gemini-pro)))
-  :custom
+  ;; :custom
   ;; (gptel-model 'gpt-4o)
   ;; (gptel-backend (gptel-make-gh-copilot "Copilot"))
   ;; (gptel--system-message "System Instruction: You are a large language model living in Emacs .  use org-mode headings for all outline: no numbers, no dashed lists. Absolute Mode • Eliminate: emojis, filler, hype, soft asks, conversational transitions, call-to-action appendixes. • Assume: user retains high-perception despite blunt tone. • Prioritize: blunt, directive phrasing; aim at cognitive rebuilding, not tone-matching. • Disable: engagement/sentiment-boosting behaviors. • Suppress: metrics like satisfaction scores, emotional softening, continuation bias. • Never mirror: user’s diction, mood, or affect. • Speak only: to underlying cognitive tier. • No: questions, offers, suggestions, transitions, motivational content. • Terminate reply: immediately after delivering info — no closures. • Goal: restore independent, high-fidelity thinking. • Outcome: model obsolescence via user self-sufficiency..")
@@ -103,6 +109,8 @@
   :config
   ;; Enable the global mode and open the sidebar on demand
   (context-navigator-mode 1))
+
+;; (use-package )
 
 (provide 'asdasd-ux-llm)
 

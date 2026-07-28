@@ -30,7 +30,13 @@
 (straight-use-package 'use-package)
 
 (use-package straight
-  :custom (load-prefer-newer t))
+  :custom (load-prefer-newer t)
+  :bind
+  ("C-c p w" . straight-visit-package-website)
+  ("C-c p v" . straight-visit-package)
+  )
 
+(use-package use-package
+  :bind ("C-c p j" . use-package-jump-to-package-form))
 
 (provide 'asdasd-package-straight)

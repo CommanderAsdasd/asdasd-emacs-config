@@ -22,8 +22,9 @@
   (system-packages-noconfirm nil)
   :bind
   (:map embark-identifier-map
-              ("p" . system-packages-install)
-              ("P" . system-packages-uninstall))
+        ("p" . system-packages-install)
+        ("P" . system-packages-uninstall))
+  
   :config (when (asdasd-ux-os-ubuntu-p)
             (setq system-packages-package-manager 'apt
                   system-packages-use-sudo t))

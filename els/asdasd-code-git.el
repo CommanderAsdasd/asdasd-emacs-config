@@ -7,8 +7,8 @@
 
 (defun asdasd-code-git-vc-visit-repo-website ()
   (interactive)
-  (browse-url-xdg-open (vc-git-repository-url "."))
-)
+  (browse-url (vc-git-repository-url "."))
+  )
 
 (use-package git-gutter
   :config

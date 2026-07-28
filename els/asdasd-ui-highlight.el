@@ -1,22 +1,17 @@
-;; (use-package number-highlight
+; (use-package number-highlight
 ;;   :config )
 
 (require 'number-highlight)
-
+(use-package highlight-symbol)
 (use-package rainbow-delimiters)
 (use-package color-identifiers-mode)
-
 (use-package region-occurrences-highlighter)
 
-(use-package highlight-symbol)
-
-
-
-(use-package rainbow-blocks-bg
-  :straight (:repo "https://github.com/seanirby/rainbow-blocks-bg"))
-
-(use-package idle-highlight-mode
-  :custom)
+(use-package rainbow-blocks-bg-bg
+  :straight (:host github :repo "seanirby/rainbow-blocks-bg"))
+ 
+;; (use-package rainbow-blocks-bg
+;;   :straight (:host github :repo "seanirby/rainbow-blocks-bg"))
 
 (use-package idle-highlight-mode
   :config )

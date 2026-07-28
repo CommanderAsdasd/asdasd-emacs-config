@@ -2,9 +2,14 @@
   :init (defun asdasd-ux-narrow-ni-to-org-element ()
           ""
           (interactive)
-          (org-mark-element)
-          
-          (ni-narrow-to-region-indirect-other-window (region-beginning) (region-end) 0))
+          (org-mark-element)          
+          (ni-narrow-to-region-indirect-other-window (region-beginning) (region-end) 0)
+          (let ((inhibit-read-only t))
+            (goto-char (point-max))
+            (insert "\n")
+            (add-text-properties
+             (1- (point)) (point)
+             '(read-only t rear-nonsticky (read-only)))))
   
   
   :bind* ("C-x n n" . ni-narrow-to-region-indirect-other-window)

@@ -1,5 +1,39 @@
 (require 'asdasd-note-org-babel)
 
+(defun asdasd-ux-text-obfuscate-region (beg end &optional seed)
+  "Obfuscate region BEG END.
+Letters stay letters, digits stay digits.
+Optional SEED makes output deterministic."
+  (interactive "r")
+  (let ((state (md5 (or seed "default-seed"))))
+    (cl-labels
+        ((next-rand ()
+           (setq state (md5 state))
+           (string-to-number (substring state 0 8) 16))
+         (letter-case (c)
+           (if (and (>= c ?A) (<= c ?Z)) 'upper 'lower))
+         (rand-letter (case)
+           (let ((base (if (eq case 'upper) ?A ?a)))
+             (+ base (% (next-rand) 26))))
+         (rand-digit ()
+           (+ ?0 (% (next-rand) 10))))
+      (save-excursion
+        (goto-char beg)
+        (while (< (point) end)
+          (let ((c (char-after)))
+            (cond
+             ((or (and (>= c ?a) (<= c ?z))
+                  (and (>= c ?A) (<= c ?Z)))
+              (delete-char 1)
+              (insert-char (rand-letter (letter-case c))))
+             ((and (>= c ?0) (<= c ?9))
+              (delete-char 1)
+              (insert-char (rand-digit)))
+             (t
+              (forward-char 1)))))))))
+
+
+
 (defun asdasd-ux-text-show-all-invisible-text ()
   (remove-text-properties (point-min) (point-max) '(invisible nil)))
 
@@ -16,6 +50,22 @@
         (goto-char
          (or (next-single-property-change (point) 'invisible)
              (point-max))))))))
+
+(defun asdasd-ux-text-copy-all-visible-text ()
+  (interactive)
+  (let ((text ""))
+    (save-excursion
+      (goto-char (point-min))
+      (while (not (eobp))
+        (let ((next (or (next-single-property-change (point) 'invisible)
+                        (point-max))))
+          (unless (get-text-property (point) 'invisible)
+            (setq text
+                  (concat text
+                          (buffer-substring-no-properties (point) next))))
+          (goto-char next))))
+    (kill-new text)
+    text))
 
 (defun process-buffer-fields (keep-first? predicate)
   "Process fields in buffer, keeping first field if KEEP-FIRST?, 
@@ -60,9 +110,29 @@
 ;;     (print (match-beginning nil))
 ;;       ))
 
+;; TODO I fucking hate `search-forward' and `replace-match'
 (defun asdasd-ux-text-split-on-substring (substring)
   (interactive "MSplit on:\n")
-  (replace-string substring (concat (if current-prefix-arg nil substring) "\n") nil (region-beginning) (region-end)))
+  (let ((beg (min (point) (mark)))
+         (end (max (point) (mark))))
+        (goto-char beg)
+        (while (search-forward substring end t)
+          (replace-match (concat "\n" (when current-prefix-arg substring)) nil t))))
+
+
+  
+
+;; (defun asdasd-ux-text-split-on-substring (substring)
+;;   (interactive "MSplit on:\n")
+;;   (replace-string substring (concat (unless current-prefix-arg substring) "\n") nil (region-beginning) (region-end)))
+
+(defun asdasd-ux-text-split-commas-and-or-but ()
+  (interactive)
+  (asdasd-ux-text-split-on-substring ",")
+  (asdasd-ux-text-split-on-substring "and")
+  (asdasd-ux-text-split-on-substring "but")
+  (asdasd-ux-text-split-on-substring " or ")
+  )
 
 (defun perform-action-on-regexp-matches (regexp action)
   "Perform ACTION on each regexp match in the current buffer."

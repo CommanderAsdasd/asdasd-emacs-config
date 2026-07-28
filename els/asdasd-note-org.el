@@ -1,5 +1,6 @@
 (require 'asdasd-globals)
 
+(add-to-list 'auto-mode-alist '("\\.notes\\'" . org-mode))
 ;; (straight-use-package
 ;;  `(org
 ;;    :type git
@@ -16,6 +17,7 @@
 ;;    :files (:defaults "lisp/*.el"
 ;;                      "contrib/lisp/*.el")))
 
+
 (defun asdasd-note-org-startup-fold ()
   (interactive)
   (org-fold-hide-block-all)
@@ -25,10 +27,10 @@
   ;; :straight nil
   :straight (:type built-in)
   :config (defun asdasd-note-org-insert-subheading-after ()
-             "skips metadata and org-insert-subheading"
-             (interactive)
-             (org-end-of-meta-data)
-             (org-insert-subheading nil))
+            "skips metadata and org-insert-subheading"
+            (interactive)
+            (org-end-of-meta-data)
+            (org-insert-subheading nil))
 
   (defun asdasd-note-org-insert-subheading-safe ()
     "saves letter by inserting space"
@@ -40,6 +42,14 @@
     "occur only src blocks"
     (interactive)
     (org-occur "src"))
+
+  (defun my/org-time-stamp-swap-prefix (&optional arg inactive)
+    (interactive "P")
+    (org-time-stamp (not arg) inactive))
+
+  (define-key org-mode-map [remap org-time-stamp]
+              #'my/org-time-stamp-swap-prefix)
+  
   (add-hook 'org-insert-heading-hook 'org-node-ensure-crtime-property)
   (add-hook 'org-insert-heading-hook 'org-hide-drawers-make-overlays)
   
@@ -66,18 +76,18 @@
                        (org-startup-truncated nil)
                        (org-src-ask-before-returning-to-edit-buffer nil)
                        (org-src-window-setup 'plain)
-                       (org-directory howm-directory)
                        (org-indent-indentation-per-level 2)
                        (org-fontify-done-headline t)
                        (org-refile-targets '((nil :maxlevel . 10)))
                        (org-timestamp-formats '("%Y-%m-%d %a" . "%Y-%m-%d %a %H:%M"))
   
                        :bind*
-                       ;; (:repeat-map org-mode-repeat-map
-                       ;;      ("o" . org-babel-next-src-block)
-                       ;;      ("p" . org-babel-previous-src-block))
+                       ("C-c o c i" . org-id-get-create)
+                       ("C-c o c c" . org-capture)
+                       ("C-c o c g" . org-clock-goto)
                        ("C-c o l s" . org-store-link)
                        (:map org-mode-map
+                             ("C-M-z" . org-rich-yank)
                              ("S-RET" . org-insert-heading-respect-content)
                              ("M-S-RET" . org-insert-heading)
                              ("C-c o g s" . org-babel-goto-named-src-block)
@@ -115,22 +125,25 @@
                                         ; TODO take urls
                        ;; (org-clock-auto-clockout)
                        ;; (org-indent-mode)
-                       (setq org-todo-keywords
-                             '((sequence
-                                "TODO(t)" ; A task that needs doing & is ready to do
-                                "BLOCK(b)"
-                                "QUESTION(q)"
-                                "|"
-                                "DONE(d)" ; Task successfully completed
-                                "FAIL(n)")))
+                       ;; (setq org-todo-keywords
+                       ;;       '((sequence
+                       ;;          "TODO(t)" ; A task that needs doing & is ready to do
+                       ;;          "WAIT(w)"
+                       ;;          "|"
+                       ;;          "DONE(d)" ; Task successfully completed
+                       ;;          "CANC(c)")))
+                                        ; cancelled
   
                        (add-hook 'org-timer-set-hook #'org-clock-in)
-                       (add-hook 'org-timer-done-hook #'org-clock-out)
-                       (add-hook 'org-timer-stop-hook #'org-clock-out)
+                       (add-hook 'org-timer-done-hook (lambda () (when (org-clocking-p) (org-clock-out))))
+                       (add-hook 'org-timer-stop-hook (lambda () (when (org-clocking-p) (org-clock-out))))
                        (add-hook 'org-clock-in-hook #'org-id-get-create)
+                       (add-hook 'org-clock-out-hook #'org-timer-stop)
+
                        (add-hook 'org-mode-hook (lambda () (asdasd-note-org-startup-fold)))
                        (add-hook 'org-mode-hook (lambda () (auto-revert-mode 1)))
                        (add-hook 'org-mode-hook (lambda () (org-indent-mode 1)))
+  (add-hook 'org-capture-mode-hook 'org-id-get-create)
                        (dolist (file-app '(("\\.html\\'" . emacs)
                                            ("\\.pdf\\'" . emacs)
                                            ("\\.org\\'" . emacs)))
@@ -188,7 +201,8 @@
 (use-package org-web-tools)
 
 (use-package org-transclusion
-  :bind ("C-c o t a" . org-transclusion-add)
+  :bind
+  ("C-c o t a" . org-transclusion-add)
   ("C-c o t A" . org-transclusion-add-all)
   ("C-c o t R" . org-transclusion-remove-all)
   ("C-c o t r" . org-transclusion-remove)

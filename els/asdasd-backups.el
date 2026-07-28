@@ -3,9 +3,10 @@
            (auto-save-visited-mode t)
            (auto-save-file-name-transforms
             `((".*" "~/MyEmacsBackups/" t)))
-           (kept-new-versions 10)
-           (kept-old-versions 10)
-           (version-control t))
+           (kept-new-versions 20)
+           (kept-old-versions 0)        ; FIX for excessive backups prompt
+           (version-control t)
+           (delete-old-versions t))
 
 ;; (use-package backup)
 
@@ -16,9 +17,9 @@
   (unless save-all-unsaved-mutex
     (setq save-all-unsaved-mutex t)
     (save-some-buffers t)
-    (savehist-save))
+    ;; (savehist-save)
+    )
   (setq save-all-unsaved-mutex nil))
-
 
 (if (version< emacs-version "27")
     (add-hook 'focus-out-hook 'asd-save-all-unsaved)

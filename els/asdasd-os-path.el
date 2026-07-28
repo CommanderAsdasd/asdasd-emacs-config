@@ -3,6 +3,13 @@
 (use-package path-helper
   :config (path-helper-setenv "PATH"))
 
+(defun windize-path (path)
+  (with-temp-buffer (insert path)
+                      (goto-char (point-min))
+                    (while (search-forward "/" nil t)
+                      (replace-match "\\" nil t))
+                    (buffer-string)))
+
 (defun asdasd-os-path-windize-path (path)
   "turn path to win"
   (interactive)

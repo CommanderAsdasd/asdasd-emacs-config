@@ -1,5 +1,8 @@
 (use-package reverse-im
-  :config (reverse-im-mode))
+  :custom
+  (reverse-im-input-methods '("russian-computer"))
+  :config
+  (reverse-im-mode))
 
 (use-package which-key
  :config (which-key-mode))
@@ -10,7 +13,7 @@
 (use-package ido-yes-or-no)
 
 (use-package emacs
-  :bind ("C-x C-c" . execute-extended-command)
+  :bind ("C-x C-c" . inhibit-mouse-mode)
   :custom (tab-always-indent t))
 
 (use-package god-mode

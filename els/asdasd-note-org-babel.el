@@ -32,7 +32,6 @@
   (org-babel-default-header-args
    `((:session . ,(if (eq major-mode 'emacs-lisp-mode) nil (format "* session %s %s " (org-element-property :language (org-element-at-point)) (file-name-nondirectory buffer-file-name))))
      (:async)
-     
      (:results . "drawer replace")
      (:comments . "link")  ;; add a link to the original source
      (:exports . "both")
@@ -42,8 +41,9 @@
      (:tangle . "no")))
   ;; Set default header args for bash blocks
   (org-babel-default-header-args:bash
-   '((:async)
-     (:session . "bash")))   ;; name of the default session
+   '(;; (:async)
+     ;; (:session . "bash")
+     ))   ;; name of the default session
   (org-confirm-babel-evaluate nil)
   (org-edit-src-turn-on-auto-save t)
   
@@ -63,13 +63,13 @@
              )
            )
   (add-to-list 'org-src-lang-modes '("dockerfile" . dockerfile))
-  (mapc (lambda (x) (add-to-list 'org-structure-template-alist x)) (list '("spy" . "src python")
+  (mapc (lambda (x) (add-to-list 'org-structure-template-alist x)) (list '("sp" . "src python")
                                                                          '("sg" . "src go")
                                                                          '("se" . "src elisp")
                                                                          '("ss" . "src")
                                                                          '("sh" . "src sh")
                                                                          '("sb" . "src bash")
-                                                                         '("spr" . "src prog")
+                                                                         '("sr" . "src prog")
                                                                          '("sd" . "src diff"))))
 
 
@@ -89,10 +89,15 @@
 
 (use-package ob-p5js)
 
-(use-package org-rich-yank)
+(use-package org-rich-yank
+  :bind ("C-c o r" . org-rich-yank))
+
 
 (use-package ob-mermaid)
 
 (use-package ob-go)
+
+(use-package ob-async
+  :custom (ob-async-no-async-languages-alist '("sh" "python" "elisp" "go" "bash")))
 
 (provide 'asdasd-note-org-babel)

@@ -5,4 +5,4 @@
 (use-package expand-region
 
   :bind ;; ("C-M-SPC" . )
-  ("C-M-S-SPC" . er/expand-region))
+  ("C-M-SPC" . er/expand-region))

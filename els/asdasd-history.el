@@ -1,4 +1,4 @@
-(savehist-mode 1)
+
 
 (use-package recentf
   :custom (recentf-save-file (expand-file-name "recentf-save.el" asdasd-globals-cache-dir))
@@ -6,7 +6,8 @@
 
 (use-package savehist
   :custom (savehist-file (expand-file-name "savehist.el" asdasd-globals-cache-dir))
-  :config (savehist-mode 1)
+  :config
+  (savehist-mode 1)
   (setq savehist-additional-variables '(kill-ring
                                         recentf-list
                                         search-ring
